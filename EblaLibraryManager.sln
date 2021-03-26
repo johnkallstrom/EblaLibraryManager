@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EblaLibraryManager.Web", "EblaLibraryManager.Web\EblaLibraryManager.Web.csproj", "{EC32EDE5-61C8-41F5-ACFC-5A372348DB23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EblaLibraryManager.Data", "EblaLibraryManager.Data\EblaLibraryManager.Data.csproj", "{087FA34F-8A07-4689-BD42-DDBAD9EECBEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EblaLibraryManager.Core", "EblaLibraryManager.Core\EblaLibraryManager.Core.csproj", "{23C819CE-6998-4E27-B312-9461FFF1A078}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{EC32EDE5-61C8-41F5-ACFC-5A372348DB23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC32EDE5-61C8-41F5-ACFC-5A372348DB23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC32EDE5-61C8-41F5-ACFC-5A372348DB23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{087FA34F-8A07-4689-BD42-DDBAD9EECBEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{087FA34F-8A07-4689-BD42-DDBAD9EECBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{087FA34F-8A07-4689-BD42-DDBAD9EECBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{087FA34F-8A07-4689-BD42-DDBAD9EECBEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23C819CE-6998-4E27-B312-9461FFF1A078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23C819CE-6998-4E27-B312-9461FFF1A078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23C819CE-6998-4E27-B312-9461FFF1A078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23C819CE-6998-4E27-B312-9461FFF1A078}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
