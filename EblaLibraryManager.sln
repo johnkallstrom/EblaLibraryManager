@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EblaLibraryManager.Web", "EblaLibraryManager.Web\EblaLibraryManager.Web.csproj", "{EC32EDE5-61C8-41F5-ACFC-5A372348DB23}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC32EDE5-61C8-41F5-ACFC-5A372348DB23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC32EDE5-61C8-41F5-ACFC-5A372348DB23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC32EDE5-61C8-41F5-ACFC-5A372348DB23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC32EDE5-61C8-41F5-ACFC-5A372348DB23}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {36F1BC4B-9C7B-4BC4-A40E-F6E2FFB51DF4}
+	EndGlobalSection
+EndGlobal
