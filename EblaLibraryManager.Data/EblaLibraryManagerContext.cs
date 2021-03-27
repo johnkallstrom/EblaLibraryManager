@@ -1,11 +1,12 @@
 ﻿using EblaLibraryManager.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
 namespace EblaLibraryManager.Data
 {
-    public partial class EblaLibraryManagerContext : DbContext
+    public partial class EblaLibraryManagerContext : IdentityDbContext
     {
         public EblaLibraryManagerContext()
         {
@@ -27,6 +28,8 @@ namespace EblaLibraryManager.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<Author>(entity =>

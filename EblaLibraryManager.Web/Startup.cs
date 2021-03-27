@@ -1,8 +1,10 @@
 using EblaLibraryManager.Core.Services;
 using EblaLibraryManager.Core.Services.Interfaces;
 using EblaLibraryManager.Data;
+using EblaLibraryManager.Data.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,13 +24,22 @@ namespace EblaLibraryManager.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options => options.EnableEndpointRouting = false);
-
             services.AddDbContext<EblaLibraryManagerContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddTransient<IBookService, BookService>();
-
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<EblaLibraryManagerContext>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -39,9 +50,8 @@ namespace EblaLibraryManager.Web
             }
 
             app.UseRouting();
-
             app.UseStaticFiles();
-
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
         }
     }
