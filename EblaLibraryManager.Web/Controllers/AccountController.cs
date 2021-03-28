@@ -38,7 +38,7 @@ namespace EblaLibraryManager.Web.Controllers
 
                 if (result.Succeeded)
                 {
-                    // redirect to home
+                    return RedirectToAction("Index", "Home");
                 }
             }
 

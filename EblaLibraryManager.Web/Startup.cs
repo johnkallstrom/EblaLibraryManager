@@ -29,7 +29,7 @@ namespace EblaLibraryManager.Web
             services.AddTransient<IBookService, BookService>();
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<IdentityOptions>(options =>
@@ -38,7 +38,7 @@ namespace EblaLibraryManager.Web
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 8;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = true;
+                options.Password.RequireUppercase = false;
             });
         }
 
