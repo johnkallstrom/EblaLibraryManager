@@ -9,9 +9,9 @@ namespace EblaLibraryManager.Core.Services
 {
     public class BookService : IBookService
     {
-        private readonly EblaLibraryManagerContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public BookService(EblaLibraryManagerContext context)
+        public BookService(ApplicationDbContext context)
         {
             _context = context;
         }

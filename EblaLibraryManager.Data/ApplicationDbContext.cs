@@ -1,19 +1,17 @@
-﻿using EblaLibraryManager.Data.Identity;
-using EblaLibraryManager.Data.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using EblaLibraryManager.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
 namespace EblaLibraryManager.Data
 {
-    public partial class EblaLibraryManagerContext : IdentityDbContext<ApplicationUser>
+    public partial class ApplicationDbContext : DbContext
     {
-        public EblaLibraryManagerContext()
+        public ApplicationDbContext()
         {
         }
 
-        public EblaLibraryManagerContext(DbContextOptions<EblaLibraryManagerContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
@@ -23,14 +21,11 @@ namespace EblaLibraryManager.Data
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<Lending> Lendings { get; set; }
-        public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }
         public virtual DbSet<ReservationStatus> ReservationStatus { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<Author>(entity =>
@@ -44,8 +39,6 @@ namespace EblaLibraryManager.Data
                     .HasMaxLength(50);
 
                 entity.Property(e => e.Death).HasColumnType("date");
-
-                entity.Property(e => e.Description).IsRequired();
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -124,19 +117,6 @@ namespace EblaLibraryManager.Data
                     .HasForeignKey(d => d.BookId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Lending_Book");
-            });
-
-            modelBuilder.Entity<Notification>(entity =>
-            {
-                entity.ToTable("Notification");
-
-                entity.Property(e => e.Created).HasColumnType("date");
-
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(256);
-
-                entity.Property(e => e.Message).IsRequired();
             });
 
             modelBuilder.Entity<Reservation>(entity =>
