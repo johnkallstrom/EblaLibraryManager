@@ -1,4 +1,5 @@
-﻿using EblaLibraryManager.Data.Models;
+﻿using EblaLibraryManager.Data.Identity;
+using EblaLibraryManager.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EblaLibraryManager.Data
 {
-    public partial class EblaLibraryManagerContext : IdentityDbContext
+    public partial class EblaLibraryManagerContext : IdentityDbContext<ApplicationUser>
     {
         public EblaLibraryManagerContext()
         {

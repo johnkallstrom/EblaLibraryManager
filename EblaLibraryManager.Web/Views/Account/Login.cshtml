@@ -1,0 +1,29 @@
+﻿@{ 
+    ViewBag.Title = "Ebla Library Manager - Login";
+}
+
+@model LoginViewModel
+
+<div id="login">
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Login</h4>
+            <hr />
+            <form asp-controller="Account" asp-action="Login" method="post">
+                <div class="form-group">
+                    <label asp-for="@Model.Username" class="text-muted">Username</label>
+                    <input asp-for="@Model.Username" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Password">Password</label>
+                    <input asp-for="@Model.Password" type="password" class="form-control">
+                </div>
+                <div class="form-check">
+                    <input asp-for="@Model.RememberMe" type="checkbox" class="form-check-input">
+                    <label asp-for="@Model.RememberMe" class="form-check-label">Remember Me</label>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Sign in</button>
+            </form>
+        </div>
+    </div>
+</div>
