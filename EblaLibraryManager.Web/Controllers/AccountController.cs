@@ -38,11 +38,17 @@ namespace EblaLibraryManager.Web.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
             }
 
             return View(model);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }
 }
