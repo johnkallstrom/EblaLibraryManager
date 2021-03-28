@@ -1,4 +1,5 @@
-﻿using EblaLibraryManager.Data.Identity;
+﻿using EblaLibraryManager.Data.Enumerations;
+using EblaLibraryManager.Data.Identity;
 using EblaLibraryManager.Web.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,13 +10,16 @@ namespace EblaLibraryManager.Web.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         public AccountController(
+            RoleManager<IdentityRole> roleManager,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
         {
+            _roleManager = roleManager;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -39,6 +43,44 @@ namespace EblaLibraryManager.Web.Controllers
                 if (result.Succeeded)
                 {
                     return RedirectToAction(nameof(HomeController.Index), "Home");
+                }
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(model.Username);
+
+                if (user is null)
+                {
+                    var newUser = new ApplicationUser
+                    {
+                        UserName = model.Username
+                    };
+
+                    var result = await _userManager.CreateAsync(newUser, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(newUser, CustomRoleTypes.Member);
+
+                        await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, lockoutOnFailure: false);
+                        return RedirectToAction(nameof(HomeController.Index), "Home");
+                    }
                 }
             }
 

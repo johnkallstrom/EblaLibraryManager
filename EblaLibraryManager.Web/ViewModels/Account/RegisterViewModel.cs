@@ -2,7 +2,7 @@
 
 namespace EblaLibraryManager.Web.ViewModels.Account
 {
-    public class LoginViewModel
+    public class RegisterViewModel
     {
         [Required(ErrorMessage = "Please enter your username.")]
         public string Username { get; set; }
@@ -11,6 +11,9 @@ namespace EblaLibraryManager.Web.ViewModels.Account
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        public bool RememberMe { get; set; }
+        [Required(ErrorMessage = "Please confirm your password.")]
+        [DataType(DataType.Password)]
+        [Compare(nameof(Password), ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
     }
 }
