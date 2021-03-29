@@ -1,4 +1,5 @@
-﻿using EblaLibraryManager.Data.Enumerations;
+﻿using AutoMapper;
+using EblaLibraryManager.Data.Enumerations;
 using EblaLibraryManager.Data.Identity;
 using EblaLibraryManager.Web.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
@@ -10,15 +11,18 @@ namespace EblaLibraryManager.Web.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IMapper _mapper;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         public AccountController(
+            IMapper mapper,
             RoleManager<IdentityRole> roleManager,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
         {
+            _mapper = mapper;
             _roleManager = roleManager;
             _userManager = userManager;
             _signInManager = signInManager;
@@ -78,6 +82,16 @@ namespace EblaLibraryManager.Web.Controllers
                     return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
             }
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Profile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            var model = _mapper.Map<ProfileViewModel>(user);
+            model.Roles = await _userManager.GetRolesAsync(user);
 
             return View(model);
         }
