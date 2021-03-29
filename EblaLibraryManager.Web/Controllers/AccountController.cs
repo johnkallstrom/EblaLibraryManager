@@ -38,7 +38,6 @@ namespace EblaLibraryManager.Web.Controllers
         
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
@@ -63,7 +62,6 @@ namespace EblaLibraryManager.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -83,17 +81,6 @@ namespace EblaLibraryManager.Web.Controllers
                     return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
             }
-
-            return View(model);
-        }
-
-        public async Task<IActionResult> Profile()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            var roles = await _userManager.GetRolesAsync(user);
-
-            var model = _mapper.Map<ProfileViewModel>(user);
-            model.Role = roles.First();
 
             return View(model);
         }

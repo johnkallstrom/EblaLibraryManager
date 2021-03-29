@@ -1,4 +1,5 @@
-﻿@inject SignInManager<ApplicationUser> SignInManager
+﻿@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
 
 <ul class="navbar-nav ml-auto">
     @if (SignInManager.IsSignedIn(User))
@@ -6,11 +7,14 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"><i class="fas fa-user"></i></a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" asp-controller="Account" asp-action="Profile">Your profile</a>
+                <div style="padding: 0 1.5rem;">Signed in as</div>
+                <div class="d-block" style="padding: 0 1.5rem"><strong>@UserManager.GetUserName(User)</strong></div>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" asp-controller="Manage" asp-action="Profile">Your profile</a>
+                <a class="dropdown-item" asp-controller="Manage" asp-action="Settings">Your settings</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Sign out</a>
             </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Account" asp-action="Logout">Sign out</a>
         </li>
     }
     else
