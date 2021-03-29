@@ -63,24 +63,19 @@ namespace EblaLibraryManager.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.Username);
-
-                if (user is null)
+                var newUser = new ApplicationUser
                 {
-                    var newUser = new ApplicationUser
-                    {
-                        UserName = model.Username
-                    };
+                    UserName = model.Username
+                };
 
-                    var result = await _userManager.CreateAsync(newUser, model.Password);
+                var result = await _userManager.CreateAsync(newUser, model.Password);
 
-                    if (result.Succeeded)
-                    {
-                        await _userManager.AddToRoleAsync(newUser, CustomRoleTypes.Member);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(newUser, CustomRoleTypes.Member);
 
-                        await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, lockoutOnFailure: false);
-                        return RedirectToAction(nameof(HomeController.Index), "Home");
-                    }
+                    await _signInManager.SignInAsync(newUser, isPersistent: false);
+                    return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
             }
 
