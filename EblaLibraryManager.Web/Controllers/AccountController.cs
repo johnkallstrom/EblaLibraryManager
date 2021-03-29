@@ -5,6 +5,7 @@ using EblaLibraryManager.Web.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EblaLibraryManager.Web.Controllers
@@ -89,9 +90,10 @@ namespace EblaLibraryManager.Web.Controllers
         public async Task<IActionResult> Profile()
         {
             var user = await _userManager.GetUserAsync(User);
+            var roles = await _userManager.GetRolesAsync(user);
 
             var model = _mapper.Map<ProfileViewModel>(user);
-            model.Roles = await _userManager.GetRolesAsync(user);
+            model.Role = roles.First();
 
             return View(model);
         }
