@@ -11,7 +11,9 @@ namespace EblaLibraryManager.Web.Profiles
         {
             CreateMap<ApplicationUser, ProfileViewModel>()
                 .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.UserName));
-            CreateMap<ApplicationUser, SettingsViewModel>();
+            CreateMap<ApplicationUser, SettingsViewModel>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
+            CreateMap<SettingsViewModel, ApplicationUser>();
         }
     }
 }

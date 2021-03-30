@@ -57,9 +57,21 @@ namespace EblaLibraryManager.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Settings(SettingsViewModel model)
         {
+            var user = await _userManager.FindByIdAsync(model.UserId);
+
             if (ModelState.IsValid)
             {
+                if (user is not null)
+                {
+                    _mapper.Map(model, user);
 
+                    var result = await _userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        ViewBag.Success = true;
+                    }
+                }
             }
 
             return View(model);
