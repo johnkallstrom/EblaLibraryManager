@@ -120,7 +120,7 @@
             <div class="modal-body">
                 <h4>Delete Account</h4>
                 <p>Are you sure you want to delete your account?</p>
-                <button type="button" class="btn btn-danger">Delete</button>
+                <button type="button" class="btn btn-danger btn-delete-confirmation">Delete</button>
                 <button type="button" class="btn btn-secondary btn-cancel">Cancel</button>
             </div>
         </div>
@@ -137,6 +137,20 @@
 
         $('.btn-delete').click(function () {
             $('.modal').show();
+        });
+
+        $('.btn-delete-confirmation').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeleteUser", "Manage", new { userId = Model.UserId })',
+                success: function () {
+                    $('.modal').hide();
+                    window.location.replace('@Url.Action("Index", "Home")');
+                },
+                error: function () {
+                    // log error
+                }
+            });
         });
 
         $('.btn-cancel').click(function () {

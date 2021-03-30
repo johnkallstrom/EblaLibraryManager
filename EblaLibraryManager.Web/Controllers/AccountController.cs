@@ -5,6 +5,7 @@ using EblaLibraryManager.Web.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -79,6 +80,13 @@ namespace EblaLibraryManager.Web.Controllers
 
                     await _signInManager.SignInAsync(newUser, isPersistent: false);
                     return RedirectToAction(nameof(HomeController.Index), "Home");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
 

@@ -76,5 +76,28 @@ namespace EblaLibraryManager.Web.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        [Authorize]
+        public async Task DeleteUser(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user is not null)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+
+                if (roles.Count() is not 0)
+                {
+                    foreach (var role in roles)
+                    {
+                        await _userManager.RemoveFromRoleAsync(user, role);
+                    }
+                }
+                
+                await _userManager.DeleteAsync(user);
+                await _signInManager.SignOutAsync();
+            }
+        }
     }
 }

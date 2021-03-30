@@ -11,6 +11,7 @@
                 <div class="card-body">
                     <h4>Register</h4>
                     <hr />
+                    <div asp-validation-summary="All">
                     <form asp-controller="Account" asp-action="Register" method="post">
                         <div class="form-group">
                             <label asp-for="@Model.Username" class="text-muted">Username</label>
