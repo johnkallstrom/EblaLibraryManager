@@ -1,4 +1,4 @@
-﻿namespace EblaLibraryManager.Web.ViewModels.Account
+﻿namespace EblaLibraryManager.Web.ViewModels.Manage
 {
     public class ProfileViewModel
     {

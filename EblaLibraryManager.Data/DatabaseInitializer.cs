@@ -7,14 +7,15 @@ namespace EblaLibraryManager.Data
 {
     public class DatabaseInitializer
     {
-        private const string DefaultUsername = "elm-admin";
-        private const string DefaultEmail = "elm-admin@mail.com";
+        private const string DefaultLibrarianUser = "elm-librarian";
+        private const string DefaultMemberUser = "elm-member";
         private const string DefaultPassword = "password123";
 
         public void Seed(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             SeedRoles(roleManager).Wait();
-            SeedDefaultUser(userManager).Wait();
+            SeedDefaultUser(userManager, DefaultLibrarianUser, DefaultPassword, CustomRoleTypes.Librarian).Wait();
+            SeedDefaultUser(userManager, DefaultMemberUser, DefaultPassword, CustomRoleTypes.Member).Wait();
         }
 
         private async Task SeedRoles(RoleManager<IdentityRole> roleManager)
@@ -30,21 +31,20 @@ namespace EblaLibraryManager.Data
             }
         }
 
-        private async Task SeedDefaultUser(UserManager<ApplicationUser> userManager)
+        private async Task SeedDefaultUser(UserManager<ApplicationUser> userManager, string username, string password, string role)
         {
-            if (await userManager.FindByNameAsync(DefaultUsername) == null)
+            if (await userManager.FindByNameAsync(username) == null)
             {
                 var user = new ApplicationUser
                 {
-                    UserName = DefaultUsername,
-                    Email = DefaultEmail
+                    UserName = username,
                 };
 
-                var result = await userManager.CreateAsync(user, DefaultPassword);
+                var result = await userManager.CreateAsync(user, password);
 
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(user, CustomRoleTypes.Librarian);
+                    await userManager.AddToRoleAsync(user, role);
                 }
             }
         }

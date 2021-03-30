@@ -1,29 +1,33 @@
 ﻿@inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 
-<ul class="navbar-nav ml-auto">
-    @if (SignInManager.IsSignedIn(User))
+@{ 
+    bool signedIn = SignInManager.IsSignedIn(User);
+    string role = string.Empty;
+
+    if (signedIn)
     {
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"><i class="fas fa-user"></i></a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <div style="padding: 0 1.5rem;">Signed in as</div>
-                <div class="d-block" style="padding: 0 1.5rem"><strong>@UserManager.GetUserName(User)</strong></div>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" asp-controller="Manage" asp-action="Profile">Your profile</a>
-                <a class="dropdown-item" asp-controller="Manage" asp-action="Settings">Your settings</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Sign out</a>
-            </div>
-        </li>
+        var user = await UserManager.GetUserAsync(User);
+        var roleList = await UserManager.GetRolesAsync(user);
+        role = roleList.First();
+    }
+}
+
+<div class="navbar-nav">
+    <a class="nav-item nav-link" asp-controller="Book" asp-action="Index">Books</a>
+    @if (signedIn)
+    {
+        <a class="nav-item nav-link" asp-controller="Manage" asp-action="Profile">Profile</a>
+        <a class="nav-item nav-link" asp-controller="Manage" asp-action="Settings">Settings</a>
+        <a class="nav-item nav-link" asp-controller="Account" asp-action="Logout">Sign out</a>
     }
     else
     {
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Account" asp-action="Login">Sign in</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
-        </li>
+        <a class="nav-item nav-link" asp-controller="Account" asp-action="Login">Sign in</a>
+        <a class="nav-item nav-link" asp-controller="Account" asp-action="Register">Register</a>
     }
-</ul>
+</div>
+@if (signedIn)
+{
+    <span class="ml-auto role-wrapper">@role</span>
+}

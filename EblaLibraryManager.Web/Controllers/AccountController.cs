@@ -43,6 +43,21 @@ namespace EblaLibraryManager.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.FindByNameAsync(model.Username);
+
+                if (user is null)
+                {
+                    ModelState.AddModelError(string.Empty, "The username you entered does not exist.");
+                    return View(model);
+                }
+
+                bool validPass = await _userManager.CheckPasswordAsync(user, model.Password);
+                if (!validPass)
+                {
+                    ModelState.AddModelError(string.Empty, "The password you entered is not valid.");
+                    return View(model);
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
 
                 if (result.Succeeded)
@@ -67,6 +82,14 @@ namespace EblaLibraryManager.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.FindByNameAsync(model.Username);
+
+                if (user is not null)
+                {
+                    ModelState.AddModelError(string.Empty, "The username you entered is not available");
+                    return View(model);
+                }
+
                 var newUser = new ApplicationUser
                 {
                     UserName = model.Username

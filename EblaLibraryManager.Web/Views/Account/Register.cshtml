@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <h4>Register</h4>
                     <hr />
-                    <div asp-validation-summary="All">
+                    <div asp-validation-summary="ModelOnly"></div>
                     <form asp-controller="Account" asp-action="Register" method="post">
                         <div class="form-group">
                             <label asp-for="@Model.Username" class="text-muted">Username</label>
@@ -28,7 +28,7 @@
                             <input asp-for="@Model.ConfirmPassword" type="password" class="form-control">
                             <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3">Register</button>
+                        <button type="submit" class="btn btn-primary">Register</button>
                     </form>
                 </div>
             </div>
