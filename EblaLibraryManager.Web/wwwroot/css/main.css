@@ -1,3 +1,7 @@
 ﻿body {
     background-color: #fbfbfb !important;
 }
+
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
