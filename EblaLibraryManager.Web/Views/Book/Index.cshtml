@@ -2,4 +2,41 @@
     ViewBag.Title = "Books";
 }
 
-<div id="books"></div>
+<div id="books">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Genre</th>
+                            <th scope="col">Pages</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Sapiens: A Brief History of Humankind</td>
+                            <td>Yuval Noah Harari</td>
+                            <td>Non-fiction</td>
+                            <td>443</td>
+                            <td class="text-center"><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>The Eye Of The World</td>
+                            <td>Robert Jordan</td>
+                            <td>Fantasy</td>
+                            <td>782</td>
+                            <td class="text-center"><span class="badge badge-success">Available</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
