@@ -1,4 +1,8 @@
-﻿#settings .column-delete {
+﻿#profile .column-profile-details {
+    margin-top: 1rem;
+}
+
+#settings .column-delete {
     margin-top: 1rem;
 }
 
@@ -17,5 +21,9 @@
 
     #settings .column:last-child {
         margin-bottom: 0rem;
+    }
+
+    #settings .column-delete {
+        margin-top: 0rem;
     }
 }

@@ -60,37 +60,14 @@ namespace EblaLibraryManager.Web.Controllers
         {
             var user = await _userManager.FindByIdAsync(model.UserId);
 
+            if (user is null)
+            {
+                ModelState.AddModelError(string.Empty, "The user you are requesting does not exist.");
+                return View(model);
+            }
+
             if (ModelState.IsValid)
             {
-                if (user is null)
-                {
-                    ModelState.AddModelError(string.Empty, "The user you are requesting does not exist.");
-                    return View(model);
-                }
-
-                if (model.PasswordSettings != null)
-                {
-                    bool validPass = await _userManager.CheckPasswordAsync(user, model.PasswordSettings.CurrentPassword);
-
-                    if (!validPass)
-                    {
-                        ModelState.AddModelError(string.Empty, "The current password you entered is not valid.");
-                        return View(model);
-                    }
-
-                    var changePassResult = await _userManager.ChangePasswordAsync(user, model.PasswordSettings.CurrentPassword, model.PasswordSettings.NewPassword);
-
-                    if (!changePassResult.Succeeded)
-                    {
-                        foreach (var error in changePassResult.Errors)
-                        {
-                            ModelState.AddModelError(string.Empty, error.Description);
-                        }
-
-                        return View(model);
-                    }
-                }
-
                 _mapper.Map(model, user);
 
                 var result = await _userManager.UpdateAsync(user);
