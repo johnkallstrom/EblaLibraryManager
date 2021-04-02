@@ -1,0 +1,21 @@
+﻿#settings .column-delete {
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    #profile .column {
+        margin-bottom: 1rem;
+    }
+
+    #profile .column:last-child {
+        margin-bottom: 0rem;
+    }
+
+    #settings .column {
+        margin-bottom: 1rem;
+    }
+
+    #settings .column:last-child {
+        margin-bottom: 0rem;
+    }
+}

@@ -24,7 +24,7 @@
 }
 <div id="settings">
     <div class="row gutters">
-        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 column">
             <div class="card h-100 shadow-sm">
                 <div class="card-body">
                     <h4 class="mb-3">Profile</h4>
@@ -82,30 +82,26 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12" style="padding-top: 30px">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 column">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h4 class="mb-3">Password</h4>
                     <form asp-controller="Manage" asp-action="Settings" method="post">
                         <input type="hidden" asp-for="@Model.UserId" />
-                        <div class="row gutters">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label asp-for="@Model.PasswordSettings.CurrentPassword" class="text-muted">Current Password</label>
-                                    <input asp-for="@Model.PasswordSettings.CurrentPassword" type="password" class="form-control">
-                                    <span asp-validation-for="@Model.PasswordSettings.CurrentPassword" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="@Model.PasswordSettings.NewPassword" class="text-muted">New Password</label>
-                                    <input asp-for="@Model.PasswordSettings.NewPassword" type="password" class="form-control">
-                                    <span asp-validation-for="@Model.PasswordSettings.NewPassword" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="@Model.PasswordSettings.ConfirmPassword" class="text-muted">Confirm Password</label>
-                                    <input asp-for="@Model.PasswordSettings.ConfirmPassword" type="password" class="form-control">
-                                    <span asp-validation-for="@Model.PasswordSettings.ConfirmPassword" class="text-danger"></span>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.PasswordSettings.CurrentPassword" class="text-muted">Current Password</label>
+                            <input asp-for="@Model.PasswordSettings.CurrentPassword" type="password" class="form-control">
+                            <span asp-validation-for="@Model.PasswordSettings.CurrentPassword" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.PasswordSettings.NewPassword" class="text-muted">New Password</label>
+                            <input asp-for="@Model.PasswordSettings.NewPassword" type="password" class="form-control">
+                            <span asp-validation-for="@Model.PasswordSettings.NewPassword" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.PasswordSettings.ConfirmPassword" class="text-muted">Confirm Password</label>
+                            <input asp-for="@Model.PasswordSettings.ConfirmPassword" type="password" class="form-control">
+                            <span asp-validation-for="@Model.PasswordSettings.ConfirmPassword" class="text-danger"></span>
                         </div>
                         <div class="row gutters">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -116,7 +112,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12" style="padding-top: 30px">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 column column-delete">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h4 class="mb-3">Delete</h4>

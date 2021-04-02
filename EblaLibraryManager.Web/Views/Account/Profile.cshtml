@@ -1,0 +1,67 @@
+﻿@{ 
+    ViewBag.Title = $"Profile";
+}
+
+@model ProfileViewModel
+
+<div id="profile">
+    <div class="row gutters-sm">
+        <div class="col-md-4 column">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex flex-column align-items-center text-center">
+                        <i class="fas fa-user fa-6x"></i>
+                        <div class="mt-3">
+                            <h4>@Model.FirstName @Model.LastName</h4>
+                            <p class="text-secondary mb-1">@Model.Role</p>
+                            <p class="text-muted font-size-sm">@Model.City, @Model.Country</p>
+                            <button class="btn btn-primary">Follow</button>
+                            <button class="btn btn-outline-primary">Message</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 column">
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h4 class="mb-3">Profile</h4>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h6 class="mb-0">Name</h6>
+                        </div>
+                        <div class="col-sm-8 text-secondary">@Model.FirstName @Model.LastName</div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h6 class="mb-0">Username</h6>
+                        </div>
+                        <div class="col-sm-8 text-secondary">@Model.Username</div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h6 class="mb-0">Email</h6>
+                        </div>
+                        <div class="col-sm-8 text-secondary">@Model.Email</div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h6 class="mb-0">City</h6>
+                        </div>
+                        <div class="col-sm-8 text-secondary">@Model.City</div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h6 class="mb-0">Country</h6>
+                        </div>
+                        <div class="col-sm-8 text-secondary">@Model.Country</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

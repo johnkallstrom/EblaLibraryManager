@@ -1,4 +1,4 @@
-﻿namespace EblaLibraryManager.Web.ViewModels.Manage
+﻿namespace EblaLibraryManager.Web.ViewModels.Account
 {
     public class SettingsViewModel
     {

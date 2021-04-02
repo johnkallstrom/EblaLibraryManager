@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using EblaLibraryManager.Data.Identity;
 using EblaLibraryManager.Web.ViewModels.Account;
-using EblaLibraryManager.Web.ViewModels.Manage;
 
 namespace EblaLibraryManager.Web.Profiles
 {

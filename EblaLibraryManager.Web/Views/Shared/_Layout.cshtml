@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link href="~/css/main.css" rel="stylesheet" />
-    <link href="~/css/simple-sidebar.css" rel="stylesheet" />
+    <link href="~/css/sidebar.css" rel="stylesheet" />
+    <link href="~/css/account.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -18,31 +19,50 @@
 </head>
 <body>
     <div class="d-flex" id="wrapper">
-        <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="bg-dark border-right" id="sidebar-wrapper">
             <div class="sidebar-heading">
-                <button class="btn btn-dark btn-sm float-right btn-close-sidebar">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
                 <a asp-controller="Home" asp-action="Index">Ebla Library Manager</a>
             </div>
             <div class="list-group list-group-flush">
-                <a asp-controller="Home" asp-action="Index" class="list-group-item list-group-item-action bg-light"><i class="fas fa-home pr-3"></i>Home</a>
-                <a asp-controller="Book" asp-action="Index" class="list-group-item list-group-item-action bg-light"><i class="fas fa-book pr-3"></i>Books</a>
+                <a asp-controller="Home" asp-action="Index" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-home pr-3"></i>Home</a>
+                <a asp-controller="Book" asp-action="Index" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-book pr-3"></i>Books</a>
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <a asp-controller="Manage" asp-action="Profile" class="list-group-item list-group-item-action bg-light"><i class="fas fa-user pr-3"></i>Profile</a>
-                    <a asp-controller="Manage" asp-action="Settings" class="list-group-item list-group-item-action bg-light"><i class="fas fa-cog pr-3"></i>Settings</a>
-                    <a asp-controller="Account" asp-action="Logout" class="list-group-item list-group-item-action bg-light"><i class="fas fa-sign-out-alt pr-3"></i>Sign out</a>
+                    <a asp-controller="Account" asp-action="Profile" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-user pr-3"></i>Profile</a>
+                    <a asp-controller="Account" asp-action="Settings" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-cog pr-3"></i>Settings</a>
+                    <a asp-controller="Account" asp-action="Logout" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-sign-out-alt pr-3"></i>Sign out</a>
                 }
                 else
                 {
-                    <a asp-controller="Account" asp-action="Login" class="list-group-item list-group-item-action bg-light"><i class="fas fa-sign-in-alt pr-3"></i>Sign in</a>
-                    <a asp-controller="Account" asp-action="Register" class="list-group-item list-group-item-action bg-light"><i class="fas fa-user-plus pr-3"></i>Register</a>
+                    <a asp-controller="Account" asp-action="Login" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-sign-in-alt pr-3"></i>Sign in</a>
+                    <a asp-controller="Account" asp-action="Register" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-user-plus pr-3"></i>Register</a>
                 }
             </div>
         </div>
         <div id="page-content-wrapper">
-            <button class="btn btn-dark ml-3 mb-3 btn-show-sidebar"><i class="fas fa-bars pr-1"></i> Menu</button>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="top-navbar">
+                <a asp-controller="Home" asp-action="Index" class="navbar-brand">Ebla Library Manager</a>
+                <button class="navbar-toggler" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse">
+                    <div class="navbar-nav">
+                        <a asp-controller="Home" asp-action="Index" class="nav-item nav-link"><i class="fas fa-home pr-2"></i>Home</a>
+                        <a asp-controller="Book" asp-action="Index" class="nav-item nav-link"><i class="fas fa-book pr-2"></i>Books</a>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <a asp-controller="Account" asp-action="Profile" class="nav-item nav-link"><i class="fas fa-user pr-2"></i>Profile</a>
+                            <a asp-controller="Account" asp-action="Settings" class="nav-item nav-link"><i class="fas fa-cog pr-2"></i>Settings</a>
+                            <a asp-controller="Account" asp-action="Logout" class="nav-item nav-link"><i class="fas fa-sign-out-alt pr-2"></i>Sign out</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="Login" class="nav-item nav-link"><i class="fas fa-sign-in-alt pr-2"></i>Sign in</a>
+                            <a asp-controller="Account" asp-action="Register" class="nav-item nav-link"><i class="fas fa-user-plus pr-2"></i>Register</a>
+                        }
+                    </div>
+                </div>
+            </nav>
             <div class="container-fluid">
                 @RenderBody()
             </div>
@@ -52,15 +72,9 @@
 </html>
 
 <script type="text/javascript">
-    $('.btn-show-sidebar').hide();
-
-    $('.btn-close-sidebar').click(function () {
-        $('#sidebar-wrapper').hide();
-        $('.btn-show-sidebar').show();
-    });
-
-    $('.btn-show-sidebar').click(function () {
-        $('#sidebar-wrapper').show();
-        $('.btn-show-sidebar').hide();
+    $(document).ready(function () {
+        $('.navbar-toggler').click(function () {
+            $('.navbar-collapse').toggle();
+        });
     });
 </script>
