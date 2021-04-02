@@ -9,3 +9,13 @@
 .container-fluid {
     padding-top: 15px !important;
 }
+
+@media (max-width: 768px) {
+    #home .column {
+        margin-bottom: 1rem;
+    }
+
+    #home .column:last-child {
+        margin-bottom: 0rem;
+    }
+}

@@ -6,11 +6,11 @@
 
 <div id="register">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h4>Register</h4>
-                    <div asp-validation-summary="ModelOnly"></div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <form asp-controller="Account" asp-action="Register" method="post">
                         <div class="form-group">
                             <label asp-for="@Model.Username" class="text-muted">Username</label>

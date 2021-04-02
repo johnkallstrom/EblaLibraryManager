@@ -25,9 +25,9 @@
             </div>
             <div class="list-group list-group-flush">
                 <a asp-controller="Home" asp-action="Index" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-home pr-3"></i>Home</a>
-                <a asp-controller="Book" asp-action="Index" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-book pr-3"></i>Books</a>
                 @if (SignInManager.IsSignedIn(User))
                 {
+                    <a asp-controller="Book" asp-action="Index" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-book pr-3"></i>Books</a>
                     <a asp-controller="Account" asp-action="Profile" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-user pr-3"></i>Profile</a>
                     <a asp-controller="Account" asp-action="Settings" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-cog pr-3"></i>Settings</a>
                     <a asp-controller="Account" asp-action="Logout" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-sign-out-alt pr-3"></i>Sign out</a>
@@ -48,9 +48,9 @@
                 <div class="collapse navbar-collapse">
                     <div class="navbar-nav">
                         <a asp-controller="Home" asp-action="Index" class="nav-item nav-link"><i class="fas fa-home pr-2"></i>Home</a>
-                        <a asp-controller="Book" asp-action="Index" class="nav-item nav-link"><i class="fas fa-book pr-2"></i>Books</a>
                         @if (SignInManager.IsSignedIn(User))
                         {
+                            <a asp-controller="Book" asp-action="Index" class="nav-item nav-link"><i class="fas fa-book pr-2"></i>Books</a>
                             <a asp-controller="Account" asp-action="Profile" class="nav-item nav-link"><i class="fas fa-user pr-2"></i>Profile</a>
                             <a asp-controller="Account" asp-action="Settings" class="nav-item nav-link"><i class="fas fa-cog pr-2"></i>Settings</a>
                             <a asp-controller="Account" asp-action="Logout" class="nav-item nav-link"><i class="fas fa-sign-out-alt pr-2"></i>Sign out</a>

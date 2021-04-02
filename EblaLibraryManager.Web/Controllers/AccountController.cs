@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EblaLibraryManager.Core.Utilities;
 using EblaLibraryManager.Data.Enumerations;
 using EblaLibraryManager.Data.Identity;
 using EblaLibraryManager.Web.ViewModels.Account;
@@ -63,11 +64,31 @@ namespace EblaLibraryManager.Web.Controllers
             if (user is null)
             {
                 ModelState.AddModelError(string.Empty, "The user you are requesting does not exist.");
+                ViewBag.Success = false;
+
                 return View(model);
             }
 
             if (ModelState.IsValid)
             {
+                bool validEmail = RegexUtilities.IsValidEmail(model.Email);
+
+                if (!validEmail)
+                {
+                    ModelState.AddModelError(string.Empty, "The email you entered is not valid.");
+                    ViewBag.Success = false;
+
+                    return View(model);
+                }
+
+                if (await _userManager.FindByEmailAsync(model.Email) != null && model.Email != user.Email)
+                {
+                    ModelState.AddModelError(string.Empty, "The email you entered is not available.");
+                    ViewBag.Success = false;
+
+                    return View(model);
+                }
+
                 _mapper.Map(model, user);
 
                 var result = await _userManager.UpdateAsync(user);
@@ -193,7 +214,7 @@ namespace EblaLibraryManager.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(Login), "Account");
         }
     }
 }
