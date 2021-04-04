@@ -1,4 +1,5 @@
-﻿using EblaLibraryManager.Web.ViewModels.Account;
+﻿using EblaLibraryManager.Core.Extensions;
+using EblaLibraryManager.Web.ViewModels.Account;
 using FluentValidation;
 
 namespace EblaLibraryManager.Web.Validators
@@ -9,7 +10,8 @@ namespace EblaLibraryManager.Web.Validators
         {
             RuleFor(model => model.Username)
                 .NotNull().WithMessage("Please enter a username.")
-                .NotEmpty().WithMessage("Please enter a username.");
+                .NotEmpty().WithMessage("Please enter a username.")
+                .Must(username => !username.IsDigitsOnly()).WithMessage("The username is not valid.");
 
             RuleFor(model => model.Password)
                 .NotNull().WithMessage("Please enter a password.")
