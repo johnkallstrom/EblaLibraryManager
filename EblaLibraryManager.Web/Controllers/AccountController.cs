@@ -1,45 +1,34 @@
 ﻿using AutoMapper;
-using EblaLibraryManager.Core.Utilities;
-using EblaLibraryManager.Data.Enumerations;
-using EblaLibraryManager.Data.Identity;
+using EblaLibraryManager.Core.Services.Interfaces;
 using EblaLibraryManager.Web.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 
 namespace EblaLibraryManager.Web.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IIdentityService _identityService;
         private readonly IMapper _mapper;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public AccountController(
-            IMapper mapper,
-            RoleManager<IdentityRole> roleManager,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            IIdentityService identityService,
+            IMapper mapper)
         {
+            _identityService = identityService;
             _mapper = mapper;
-            _roleManager = roleManager;
-            _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> Profile()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var roles = await _userManager.GetRolesAsync(user);
+            var user = await _identityService.GetCurrentUserAsync();
 
             var model = _mapper.Map<ProfileViewModel>(user);
-            model.Role = roles.First();
+            model.Role = await _identityService.GetUserRoleAsync(user);
 
             return View(model);
         }
@@ -48,7 +37,7 @@ namespace EblaLibraryManager.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Settings()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _identityService.GetCurrentUserAsync();
 
             var model = _mapper.Map<SettingsViewModel>(user);
 
@@ -59,44 +48,31 @@ namespace EblaLibraryManager.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Settings(SettingsViewModel model)
         {
-            var user = await _userManager.FindByIdAsync(model.UserId);
+            if (!ModelState.IsValid) return View(model);
 
-            if (user is null)
+            try
             {
-                ModelState.AddModelError(string.Empty, "The user you are requesting does not exist.");
-                ViewBag.Success = false;
-
-                return View(model);
-            }
-
-            if (ModelState.IsValid)
-            {
-                bool validEmail = RegexUtilities.IsValidEmail(model.Email);
-
-                if (!validEmail)
-                {
-                    ModelState.AddModelError(string.Empty, "The email you entered is not valid.");
-                    ViewBag.Success = false;
-
-                    return View(model);
-                }
-
-                if (await _userManager.FindByEmailAsync(model.Email) != null && model.Email != user.Email)
-                {
-                    ModelState.AddModelError(string.Empty, "The email you entered is not available.");
-                    ViewBag.Success = false;
-
-                    return View(model);
-                }
+                var user = await _identityService.GetUserByIdAsync(model.UserId);
 
                 _mapper.Map(model, user);
 
-                var result = await _userManager.UpdateAsync(user);
+                var result = await _identityService.UpdateUserAsync(user);
 
                 if (result.Succeeded)
                 {
                     ViewBag.Success = true;
                 }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
             }
 
             return View(model);
@@ -106,22 +82,16 @@ namespace EblaLibraryManager.Web.Controllers
         [Authorize]
         public async Task DeleteUser(string userId)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-
+            var user = await _identityService.GetUserByIdAsync(userId);
+            
             if (user is not null)
             {
-                var roles = await _userManager.GetRolesAsync(user);
+                var result = await _identityService.DeleteUserAsync(user);
 
-                if (roles.Count() is not 0)
+                if (result.Succeeded)
                 {
-                    foreach (var role in roles)
-                    {
-                        await _userManager.RemoveFromRoleAsync(user, role);
-                    }
+                    await _identityService.SignOutUserAsync();
                 }
-
-                await _userManager.DeleteAsync(user);
-                await _signInManager.SignOutAsync();
             }
         }
 
@@ -136,29 +106,20 @@ namespace EblaLibraryManager.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+
+            try
             {
-                var user = await _userManager.FindByNameAsync(model.Username);
-
-                if (user is null)
-                {
-                    ModelState.AddModelError(string.Empty, "The username you entered does not exist.");
-                    return View(model);
-                }
-
-                bool validPass = await _userManager.CheckPasswordAsync(user, model.Password);
-                if (!validPass)
-                {
-                    ModelState.AddModelError(string.Empty, "The password you entered is not valid.");
-                    return View(model);
-                }
-
-                var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _identityService.SignInUserAsync(model.Username, model.Password, model.RememberMe);
 
                 if (result.Succeeded)
                 {
                     return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
             }
 
             return View(model);
@@ -177,34 +138,26 @@ namespace EblaLibraryManager.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.Username);
-
-                if (user is not null)
+                try
                 {
-                    ModelState.AddModelError(string.Empty, "The username you entered is not available");
-                    return View(model);
-                }
+                    var result = await _identityService.CreateUserAsync(model.Username, model.Password);
 
-                var newUser = new ApplicationUser
-                {
-                    UserName = model.Username
-                };
-
-                var result = await _userManager.CreateAsync(newUser, model.Password);
-
-                if (result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(newUser, CustomRoleTypes.Member);
-
-                    await _signInManager.SignInAsync(newUser, isPersistent: false);
-                    return RedirectToAction(nameof(HomeController.Index), "Home");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
+                    if (result.Succeeded)
                     {
-                        ModelState.AddModelError(string.Empty, error.Description);
+                        await _identityService.SignInUserAsync(model.Username, model.Password, false);
+                        return RedirectToAction(nameof(HomeController.Index), "Home");
                     }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
 
@@ -213,7 +166,7 @@ namespace EblaLibraryManager.Web.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await _identityService.SignOutUserAsync();
             return RedirectToAction(nameof(Login), "Account");
         }
     }

@@ -2,6 +2,10 @@ using EblaLibraryManager.Core.Services;
 using EblaLibraryManager.Core.Services.Interfaces;
 using EblaLibraryManager.Data;
 using EblaLibraryManager.Data.Identity;
+using EblaLibraryManager.Web.Validators;
+using EblaLibraryManager.Web.ViewModels.Account;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -23,13 +27,27 @@ namespace EblaLibraryManager.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddMvc(options => options.EnableEndpointRouting = false)
+                .AddFluentValidation();
+            services.AddHttpContextAccessor();
+
             services.AddDbContext<ApplicationDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            // Register validators
+            services.AddTransient<IValidator<SettingsViewModel>, SettingsViewModelValidator>();
+            services.AddTransient<IValidator<RegisterViewModel>, RegisterViewModelValidator>();
+            services.AddTransient<IValidator<LoginViewModel>, LoginViewModelValidator>();
+
+            // Register services
+            services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<IBookService, BookService>();
+
             services.AddAutoMapper(typeof(Startup));
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings
