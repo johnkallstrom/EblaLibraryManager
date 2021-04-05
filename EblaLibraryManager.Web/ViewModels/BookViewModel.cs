@@ -11,5 +11,8 @@ namespace EblaLibraryManager.Web.ViewModels
         public int TotalPages { get; set; }
         public DateTime? Borrowed { get; set; }
         public DateTime? DueDate { get; set; }
+        public AvailabilityStatusViewModel AvailabilityStatus { get; set; }
+        public string Author { get; set; }
+        public string Genre { get; set; }
     }
 }

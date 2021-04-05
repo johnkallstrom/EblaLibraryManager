@@ -72,7 +72,6 @@ namespace EblaLibraryManager.Data
                     .HasMaxLength(50);
 
                 entity.Property(e => e.Publisher)
-                    .IsRequired()
                     .HasMaxLength(50);
 
                 entity.Property(e => e.Title)

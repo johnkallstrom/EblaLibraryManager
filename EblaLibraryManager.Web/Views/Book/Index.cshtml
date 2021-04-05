@@ -2,7 +2,22 @@
     ViewBag.Title = "Books";
 }
 
+@model BookListViewModel
+
 <div id="books">
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-controller="Book" asp-action="Index" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-primary" type="button"><i class="fas fa-search"></i></button>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Search books by title, author or genre...">
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-8">
             <div class="table-responsive">
@@ -18,30 +33,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Sapiens: A Brief History of Humankind</td>
-                            <td>Yuval Noah Harari</td>
-                            <td>Non-fiction</td>
-                            <td>443</td>
-                            <td class="text-center"><span class="badge badge-success">Available</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>The Eye Of The World</td>
-                            <td>Robert Jordan</td>
-                            <td>Fantasy</td>
-                            <td>782</td>
-                            <td class="text-center"><span class="badge badge-success">Available</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Harry Potter and the Philosopher's Stone</td>
-                            <td>Rowling, J.K.</td>
-                            <td>Fantasy</td>
-                            <td>223</td>
-                            <td class="text-center"><span class="badge badge-success">Available</span></td>
-                        </tr>
+                        @foreach (var book in Model.Books)
+                        {
+                            <tr>
+                                <th scope="row">@book.Id</th>
+                                <td>@book.Title</td>
+                                <td>@book.Author</td>
+                                <td>@book.Genre</td>
+                                <td>@book.TotalPages</td>
+                                <td class="text-center"><span class="badge badge-success">@book.AvailabilityStatus.Name</span></td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>

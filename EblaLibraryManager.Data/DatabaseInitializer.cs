@@ -14,20 +14,20 @@ namespace EblaLibraryManager.Data
         public void Seed(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             SeedRoles(roleManager).Wait();
-            SeedDefaultUser(userManager, DefaultLibrarianUser, DefaultPassword, CustomRoleTypes.Librarian).Wait();
-            SeedDefaultUser(userManager, DefaultMemberUser, DefaultPassword, CustomRoleTypes.Member).Wait();
+            SeedDefaultUser(userManager, DefaultLibrarianUser, DefaultPassword, CustomRoleType.Librarian).Wait();
+            SeedDefaultUser(userManager, DefaultMemberUser, DefaultPassword, CustomRoleType.Member).Wait();
         }
 
         private async Task SeedRoles(RoleManager<IdentityRole> roleManager)
         {
-            if (!await roleManager.RoleExistsAsync(CustomRoleTypes.Member))
+            if (!await roleManager.RoleExistsAsync(CustomRoleType.Member))
             {
-                await roleManager.CreateAsync(new IdentityRole(CustomRoleTypes.Member));
+                await roleManager.CreateAsync(new IdentityRole(CustomRoleType.Member));
             }
 
-            if (!await roleManager.RoleExistsAsync(CustomRoleTypes.Librarian))
+            if (!await roleManager.RoleExistsAsync(CustomRoleType.Librarian))
             {
-                await roleManager.CreateAsync(new IdentityRole(CustomRoleTypes.Librarian));
+                await roleManager.CreateAsync(new IdentityRole(CustomRoleType.Librarian));
             }
         }
 
