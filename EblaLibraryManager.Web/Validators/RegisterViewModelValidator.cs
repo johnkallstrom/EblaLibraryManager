@@ -11,7 +11,7 @@ namespace EblaLibraryManager.Web.Validators
             RuleFor(model => model.Username)
                 .NotNull().WithMessage("Please enter a username.")
                 .NotEmpty().WithMessage("Please enter a username.")
-                .Must(username => !username.IsDigitsOnly()).WithMessage("The username is not valid.");
+                .Must(username => !username.IsDigitsOnly()).WithMessage("The username you entered is not valid.");
 
             RuleFor(model => model.Password)
                 .NotNull().WithMessage("Please enter a password.")
