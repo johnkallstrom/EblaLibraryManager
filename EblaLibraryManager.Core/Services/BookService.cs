@@ -34,10 +34,7 @@ namespace EblaLibraryManager.Core.Services
         {
             if (parameters is null) throw new ArgumentNullException(nameof(parameters));
 
-            if (string.IsNullOrWhiteSpace(parameters.SearchQuery) 
-                && string.IsNullOrWhiteSpace(parameters.Title) 
-                && string.IsNullOrWhiteSpace(parameters.Author) 
-                && string.IsNullOrWhiteSpace(parameters.Genre))
+            if (string.IsNullOrWhiteSpace(parameters.SearchQuery))
             {
                 return await GetBooksAsync();
             }
@@ -51,21 +48,6 @@ namespace EblaLibraryManager.Core.Services
             {
                 string query = parameters.SearchQuery.Trim();
                 collection = collection.Where(book => book.Title.Contains(query) || book.Author.Name.Contains(query) || book.Genre.Name.Contains(query));
-            }
-
-            if (!string.IsNullOrWhiteSpace(parameters.Title))
-            {
-                collection = collection.Where(book => book.Title == parameters.Title);
-            }
-
-            if (!string.IsNullOrWhiteSpace(parameters.Author))
-            {
-                collection = collection.Where(book => book.Author.Name == parameters.Author);
-            }
-
-            if (!string.IsNullOrWhiteSpace(parameters.Genre))
-            {
-                collection = collection.Where(book => book.Genre.Name == parameters.Genre);
             }
 
             return await collection.ToListAsync();
