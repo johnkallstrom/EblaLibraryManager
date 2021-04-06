@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using EblaLibraryManager.Core.Parameters;
 using EblaLibraryManager.Core.Services.Interfaces;
 using EblaLibraryManager.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -29,18 +28,7 @@ namespace EblaLibraryManager.Web.Controllers
             var books = await _bookService.GetBooksAsync();
 
             var model = new BookListViewModel();
-            model.Books = _mapper.Map<IEnumerable<BookViewModel>>(books);
-
-            return View(model);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Index(BookListViewModel model)
-        {
-            if (!ModelState.IsValid) return View(model);
-
-            var books = await _bookService.GetBooksAsync(new BookParameters { SearchQuery = model.SearchQuery });
+            model.Books = _mapper.Map<IEnumerable<BookSlimViewModel>>(books);
 
             return View(model);
         }
