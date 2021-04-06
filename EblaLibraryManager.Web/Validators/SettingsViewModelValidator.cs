@@ -8,6 +8,20 @@ namespace EblaLibraryManager.Web.Validators
     {
         public SettingsViewModelValidator()
         {
+            RuleFor(model => model.PhoneNumber).Custom((phoneNumber, context) =>
+            {
+                if (!string.IsNullOrWhiteSpace(phoneNumber))
+                {
+                    Regex regex = new Regex(@"^\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d$");
+                    Match match = regex.Match(phoneNumber);
+
+                    if (!match.Success)
+                    {
+                        context.AddFailure("The phone number you entered is not valid.");
+                    }
+                }
+            });
+
             RuleFor(model => model.Email).Custom((email, context) =>
             {
                 if (!string.IsNullOrWhiteSpace(email))

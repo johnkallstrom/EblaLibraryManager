@@ -10,6 +10,13 @@
     padding-top: 15px !important;
 }
 
+.validation-summary-errors ul {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+    list-style: none;
+    padding-left: 0;
+}
+
 @media (max-width: 768px) {
     #home .column {
         margin-bottom: 1rem;
