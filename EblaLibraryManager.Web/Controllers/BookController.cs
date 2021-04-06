@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using EblaLibraryManager.Core.Parameters;
 using EblaLibraryManager.Core.Services.Interfaces;
 using EblaLibraryManager.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EblaLibraryManager.Web.Controllers
@@ -31,6 +33,15 @@ namespace EblaLibraryManager.Web.Controllers
             model.Books = _mapper.Map<IEnumerable<BookSlimViewModel>>(books);
 
             return View(model);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> SearchBooks(string searchTerm)
+        {
+            var books = await _bookService.GetBooksAsync(new BookQueryParameters { SearchTerm = searchTerm });
+
+            return ViewComponent("BookTable", _mapper.Map<IEnumerable<BookSlimViewModel>>(books));
         }
     }
 }

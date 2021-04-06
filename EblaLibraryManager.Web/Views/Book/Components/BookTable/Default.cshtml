@@ -1,0 +1,13 @@
+﻿@model IEnumerable<BookSlimViewModel>
+
+@foreach (var book in Model)
+{
+    <tr>
+        <th scope="row">@book.Id</th>
+        <td>@book.Title</td>
+        <td>@book.Author</td>
+        <td>@book.Genre</td>
+        <td>@book.TotalPages</td>
+        <td class="text-center"><span class="badge badge-success">@book.AvailabilityStatus.Name</span></td>
+    </tr>
+}

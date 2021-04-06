@@ -7,15 +7,12 @@
 <div id="books">
     <div class="row">
         <div class="col-md-4">
-            <form asp-controller="Book" asp-action="Index" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <button class="btn btn-outline-primary" type="button"><i class="fas fa-search"></i></button>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Search books by title, author or genre...">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-primary btn-search" type="button"><i class="fas fa-search"></i></button>
                 </div>
-            </form>
+                <input type="text" class="form-control" placeholder="Search books by title, author or genre..." id="search-input">
+            </div>
         </div>
     </div>
     <div class="row">
@@ -50,3 +47,28 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var timer;
+        $('#search-input').keyup(function () {
+            clearTimeout(timer);
+            var ms = 500;
+            var query = this.value;
+            timer = setTimeout(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("SearchBooks", "Book")',
+                    data: { 'searchTerm': query },
+                    success: function (data) {
+                        $('.table tbody').empty();
+                        $('.table > tbody:last-child').append(data);
+                    },
+                    error: function () {
+                        // log error
+                    }
+                });
+            }, ms)
+        });
+    });
+</script>

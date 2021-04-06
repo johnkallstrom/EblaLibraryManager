@@ -8,6 +8,6 @@ namespace EblaLibraryManager.Core.Services.Interfaces
     public interface IBookService
     {
         Task<IEnumerable<Book>> GetBooksAsync();
-        Task<IEnumerable<Book>> GetBooksAsync(BookParameters parameters);
+        Task<IEnumerable<Book>> GetBooksAsync(BookQueryParameters parameters);
     }
 }

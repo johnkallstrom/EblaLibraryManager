@@ -30,11 +30,11 @@ namespace EblaLibraryManager.Core.Services
             return books;
         }
 
-        public async Task<IEnumerable<Book>> GetBooksAsync(BookParameters parameters)
+        public async Task<IEnumerable<Book>> GetBooksAsync(BookQueryParameters parameters)
         {
             if (parameters is null) throw new ArgumentNullException(nameof(parameters));
 
-            if (string.IsNullOrWhiteSpace(parameters.SearchQuery))
+            if (string.IsNullOrWhiteSpace(parameters.SearchTerm))
             {
                 return await GetBooksAsync();
             }
@@ -44,9 +44,9 @@ namespace EblaLibraryManager.Core.Services
                 .Include(book => book.Author)
                 .Include(book => book.Genre) as IQueryable<Book>;
 
-            if (!string.IsNullOrWhiteSpace(parameters.SearchQuery))
+            if (!string.IsNullOrWhiteSpace(parameters.SearchTerm))
             {
-                string query = parameters.SearchQuery.Trim();
+                string query = parameters.SearchTerm.Trim();
                 collection = collection.Where(book => book.Title.Contains(query) || book.Author.Name.Contains(query) || book.Genre.Name.Contains(query));
             }
 
