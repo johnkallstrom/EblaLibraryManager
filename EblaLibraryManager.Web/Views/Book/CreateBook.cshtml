@@ -5,39 +5,54 @@
 @model CreateBookViewModel
 
 <div id="create-book">
-    <div class="row">
-        <div class="col-md-4">
+    <div class="row gutters">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 column">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h4>Create a new book</h4>
+                    <h4 class="mb-3">Create a new book</h4>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <form asp-controller="Book" asp-action="CreateBook" method="post">
-                        <div class="form-group">
-                            <label asp-for="@Model.Title" class="text-muted">Title</label>
-                            <input asp-for="@Model.Title" type="text" class="form-control">
-                            <span asp-validation-for="@Model.Title" class="text-danger"></span>
+                        <div class="row gutters">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group required">
+                                    <label asp-for="@Model.Title" class="text-muted control-label">Title</label>
+                                    <input asp-for="@Model.Title" type="text" class="form-control">
+                                    <span asp-validation-for="@Model.Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="@Model.Description" class="text-muted">Description</label>
+                                    <textarea asp-for="@Model.Description" type="text" class="form-control" rows="5" cols="50"></textarea>
+                                    <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-group required">
+                                    <label asp-for="@Model.TotalPages" class="text-muted control-label">Pages</label>
+                                    <input asp-for="@Model.TotalPages" type="number" class="form-control">
+                                    <span asp-validation-for="@Model.TotalPages" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label asp-for="@Model.Publisher" class="text-muted">Publisher</label>
+                                    <input asp-for="@Model.Publisher" type="text" class="form-control">
+                                    <span asp-validation-for="@Model.Publisher" class="text-danger"></span>
+                                </div>
+                                <div class="form-group required">
+                                    <label asp-for="@Model.Language" class="text-muted control-label">Language</label>
+                                    <select asp-for="@Model.Language" asp-items="@Model.LanguageOptions" class="form-control"></select>
+                                    <span asp-validation-for="@Model.Language" class="text-danger"></span>
+                                </div>
+                                <div class="form-group required">
+                                    <label asp-for="@Model.GenreId" class="text-muted control-label">Genre</label>
+                                    <select asp-for="@Model.GenreId" asp-items="@Model.GenreOptions" class="form-control"></select>
+                                    <span asp-validation-for="@Model.GenreId" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="@Model.Description" class="text-muted">Description</label>
-                            <textarea asp-for="@Model.Description" type="text" class="form-control" rows="5" cols="50"></textarea>
-                            <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <button type="submit" class="btn btn-primary">Create</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="@Model.Language" class="text-muted">Language</label>
-                            <input asp-for="@Model.Language" type="text" class="form-control">
-                            <span asp-validation-for="@Model.Language" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="@Model.Publisher" class="text-muted">Publisher</label>
-                            <input asp-for="@Model.Publisher" type="text" class="form-control">
-                            <span asp-validation-for="@Model.Publisher" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="@Model.TotalPages" class="text-muted">Pages</label>
-                            <input asp-for="@Model.TotalPages" type="number" class="form-control">
-                            <span asp-validation-for="@Model.TotalPages" class="text-danger"></span>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Create</button>
                     </form>
                 </div>
             </div>

@@ -13,8 +13,11 @@ namespace EblaLibraryManager.Web.Validators
                 .MaximumLength(50).WithMessage("The title cannot be longer than 50 characters.");
 
             RuleFor(model => model.Language)
-                .NotNull().WithMessage("Please enter a language.")
-                .NotEmpty().WithMessage("Please enter a language.");
+                .NotNull().WithMessage("Please choose a language.")
+                .NotEmpty().WithMessage("Please choose a language.");
+
+            RuleFor(model => model.GenreId)
+                .NotEmpty().WithMessage("Please choose a genre.");
 
             RuleFor(model => model.Publisher)
                 .MaximumLength(50).WithMessage("The publisher cannot be longer than 50 characters.");
