@@ -93,7 +93,7 @@ namespace EblaLibraryManager.Core.Services
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(newUser, CustomRoleType.Member);
+                await _userManager.AddToRoleAsync(newUser, IdentityRoleTypes.Member);
             }
 
             return result;

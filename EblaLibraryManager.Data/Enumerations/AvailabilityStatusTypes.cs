@@ -1,6 +1,6 @@
 ﻿namespace EblaLibraryManager.Data.Enumerations
 {
-    public enum AvailabilityStatusType
+    public enum AvailabilityStatusTypes
     {
         Available = 1,
         Reserved = 2,
