@@ -8,6 +8,7 @@ namespace EblaLibraryManager.Web.Profiles
     {
         public AuthorMapperProfile()
         {
+            CreateMap<Author, AuthorSlimViewModel>();
             CreateMap<Author, AuthorViewModel>();
         }
     }

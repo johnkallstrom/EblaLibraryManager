@@ -11,7 +11,6 @@ namespace EblaLibraryManager.Web.Profiles
             CreateMap<CreateBookViewModel, Book>();
 
             CreateMap<Book, BookSlimViewModel>()
-                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author.Name))
                 .ForMember(dest => dest.Genre, opt => opt.MapFrom(src => src.Genre.Name));
 
             CreateMap<Book, BookViewModel>();
