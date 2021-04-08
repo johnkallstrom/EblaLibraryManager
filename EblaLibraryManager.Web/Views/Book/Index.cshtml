@@ -4,14 +4,19 @@
 
 @model BookListViewModel
 
-<div id="books">
+<div id="book">
     <div class="row">
         <div class="col-md-4">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <button class="btn btn-outline-primary btn-search" type="button"><i class="fas fa-search"></i></button>
+                    <button class="btn btn-outline-dark btn-search" type="button"><i class="fas fa-search"></i></button>
                 </div>
                 <input type="text" class="form-control" placeholder="Search books by title, author or genre..." id="search-input">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="float-right">
+                <a asp-controller="Book" asp-action="CreateBook" class="btn btn-primary">New</a>
             </div>
         </div>
     </div>

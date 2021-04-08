@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EblaLibraryManager.Web.ViewModels
+namespace EblaLibraryManager.Web.ViewModels.Book
 {
     public class BookViewModel
     {
@@ -13,7 +13,7 @@ namespace EblaLibraryManager.Web.ViewModels
         public DateTime? Borrowed { get; set; }
         public DateTime? DueDate { get; set; }
         public AvailabilityStatusViewModel AvailabilityStatus { get; set; }
-        public string Author { get; set; }
-        public string Genre { get; set; }
+        public AuthorViewModel Author { get; set; }
+        public GenreViewModel Genre { get; set; }
     }
 }

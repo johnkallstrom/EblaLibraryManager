@@ -4,6 +4,7 @@ using EblaLibraryManager.Data;
 using EblaLibraryManager.Data.Identity;
 using EblaLibraryManager.Web.Validators;
 using EblaLibraryManager.Web.ViewModels.Account;
+using EblaLibraryManager.Web.ViewModels.Book;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -35,6 +36,7 @@ namespace EblaLibraryManager.Web
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             // Register validators
+            services.AddTransient<IValidator<CreateBookViewModel>, CreateBookViewModelValidator>();
             services.AddTransient<IValidator<SettingsViewModel>, SettingsViewModelValidator>();
             services.AddTransient<IValidator<RegisterViewModel>, RegisterViewModelValidator>();
             services.AddTransient<IValidator<LoginViewModel>, LoginViewModelValidator>();

@@ -1,4 +1,4 @@
-﻿namespace EblaLibraryManager.Web.ViewModels
+﻿namespace EblaLibraryManager.Web.ViewModels.Book
 {
     public class BookSlimViewModel
     {

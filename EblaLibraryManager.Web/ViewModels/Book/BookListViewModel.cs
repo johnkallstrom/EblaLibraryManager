@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EblaLibraryManager.Web.ViewModels
+namespace EblaLibraryManager.Web.ViewModels.Book
 {
     public class BookListViewModel
     {
