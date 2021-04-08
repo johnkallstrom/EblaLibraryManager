@@ -1,0 +1,12 @@
+﻿#book a {
+    color: #212529 !important;
+}
+
+.form-group.required .control-label:after {
+    content: "*";
+    color: red;
+}
+
+#create-book .btn-add-author:hover {
+    cursor: pointer;
+}
