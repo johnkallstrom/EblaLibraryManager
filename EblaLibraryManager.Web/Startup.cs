@@ -42,8 +42,10 @@ namespace EblaLibraryManager.Web
             services.AddTransient<IValidator<LoginViewModel>, LoginViewModelValidator>();
 
             // Register services
-            services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<IAuthorService, AuthorService>();
+            services.AddTransient<IGenreService, GenreService>();
             services.AddTransient<IBookService, BookService>();
+            services.AddTransient<IIdentityService, IdentityService>();
 
             services.AddAutoMapper(typeof(Startup));
 
