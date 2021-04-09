@@ -7,5 +7,6 @@ namespace EblaLibraryManager.Core.Services.Interfaces
     public interface IAuthorService
     {
         Task<IEnumerable<Author>> GetAuthorsAsync();
+        Task<Author> GetAuthorByIdAsync(int authorId);
     }
 }
