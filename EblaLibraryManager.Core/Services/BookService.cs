@@ -1,6 +1,7 @@
 ﻿using EblaLibraryManager.Core.Parameters;
 using EblaLibraryManager.Core.Services.Interfaces;
 using EblaLibraryManager.Data;
+using EblaLibraryManager.Data.Exceptions;
 using EblaLibraryManager.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,12 +20,24 @@ namespace EblaLibraryManager.Core.Services
             _context = context;
         }
 
+        public async Task<Book> GetBookByIdAsync(int bookId)
+        {
+            var book = await _context.Books
+                .Include(b => b.Author)
+                .Include(b => b.Genre)
+                .FirstOrDefaultAsync(b => b.Id == bookId);
+
+            if (book is null) throw new BookNotFoundException("The book you are requesting does not exist.");
+
+            return book;
+        }
+
         public async Task<IEnumerable<Book>> GetBooksAsync()
         {
             var books = await _context.Books
-                .Include(book => book.AvailabilityStatus)
-                .Include(book => book.Author)
-                .Include(book => book.Genre)
+                .Include(b => b.AvailabilityStatus)
+                .Include(b => b.Author)
+                .Include(b => b.Genre)
                 .ToListAsync();
 
             return books;
@@ -40,14 +53,14 @@ namespace EblaLibraryManager.Core.Services
             }
 
             var collection = _context.Books
-                .Include(book => book.AvailabilityStatus)
-                .Include(book => book.Author)
-                .Include(book => book.Genre) as IQueryable<Book>;
+                .Include(b => b.AvailabilityStatus)
+                .Include(b => b.Author)
+                .Include(b => b.Genre) as IQueryable<Book>;
 
             if (!string.IsNullOrWhiteSpace(parameters.SearchTerm))
             {
                 string query = parameters.SearchTerm.Trim();
-                collection = collection.Where(book => book.Title.Contains(query) || book.Author.Name.Contains(query) || book.Genre.Name.Contains(query));
+                collection = collection.Where(b => b.Title.Contains(query) || b.Author.Name.Contains(query) || b.Genre.Name.Contains(query));
             }
 
             return await collection.ToListAsync();
