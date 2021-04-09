@@ -61,13 +61,25 @@ namespace EblaLibraryManager.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Librarian")]
-        public async Task<IActionResult> CreateBook(CreateBookViewModel model)
+        public IActionResult CreateBook(CreateBookViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
 
             return View();
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> BookDetails(int bookId)
+        {
+            var book = await _bookService.GetBookByIdAsync(bookId);
+
+            var model = _mapper.Map<BookViewModel>(book);
+
+            return View(model);
+        }
+
+        #region Private Methods
         private async Task<List<SelectListItem>> GetGenreOptions()
         {
             var genres = await _genreService.GetGenresAsync();
@@ -78,5 +90,6 @@ namespace EblaLibraryManager.Web.Controllers
 
             return genreOptions;
         }
+        #endregion
     }
 }
