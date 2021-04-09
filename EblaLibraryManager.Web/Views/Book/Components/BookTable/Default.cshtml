@@ -4,7 +4,9 @@
 {
     <tr>
         <th scope="row">@book.Id</th>
-        <td>@book.Title</td>
+        <td>
+            <a asp-controller="Book" asp-action="BookDetails" asp-route-bookId="@book.Id">@book.Title</a>
+        </td>
         <td>
             <a asp-controller="Author" asp-action="AuthorDetails" asp-route-authorId="@book.Author.Id">@book.Author.Name</a>
         </td>
