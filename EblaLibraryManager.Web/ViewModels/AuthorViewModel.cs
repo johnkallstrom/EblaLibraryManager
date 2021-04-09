@@ -12,6 +12,6 @@ namespace EblaLibraryManager.Web.ViewModels
         public DateTime Born { get; set; }
         public DateTime? Death { get; set; }
         public string Country { get; set; }
-        public IEnumerable<BookViewModel> Books { get; set; }
+        public IEnumerable<BookSlimViewModel> Books { get; set; }
     }
 }
