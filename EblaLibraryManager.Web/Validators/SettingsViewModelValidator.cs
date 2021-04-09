@@ -22,19 +22,22 @@ namespace EblaLibraryManager.Web.Validators
                 }
             });
 
-            RuleFor(model => model.Email).Custom((email, context) =>
-            {
-                if (!string.IsNullOrWhiteSpace(email))
+            RuleFor(model => model.Email)
+                .NotNull().WithMessage("Please enter your email.")
+                .NotEmpty().WithMessage("Please enter your email.")
+                .Custom((email, context) =>
                 {
-                    Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-                    Match match = regex.Match(email);
-
-                    if (!match.Success)
+                    if (!string.IsNullOrWhiteSpace(email))
                     {
-                        context.AddFailure("The email you entered is not valid.");
+                        Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+                        Match match = regex.Match(email);
+
+                        if (!match.Success)
+                        {
+                            context.AddFailure("The email you entered is not valid.");
+                        }
                     }
-                }
-            });
+                });
         }
     }
 }
