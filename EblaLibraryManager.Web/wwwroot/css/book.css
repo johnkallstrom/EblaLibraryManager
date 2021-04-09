@@ -10,3 +10,7 @@
 #create-book .btn-add-author:hover {
     cursor: pointer;
 }
+
+#book-details .column-book-details {
+    margin-top: 1rem !important;
+}
