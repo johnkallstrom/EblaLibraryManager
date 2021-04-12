@@ -51,6 +51,28 @@
                     <hr>
                     <div class="row">
                         <div class="col-sm-4">
+                            <h6 class="mb-0">Status</h6>
+                        </div>
+                        @if (Model.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Available)
+                        {
+                            <div class="badge badge-success">@Model.AvailabilityStatus.Name</div>
+                        }
+                        @if (Model.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Reserved)
+                        {
+                            <div class="badge badge-warning">@Model.AvailabilityStatus.Name</div>
+                        }
+                        @if (Model.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Loaned)
+                        {
+                            <div class="badge badge-danger">@Model.AvailabilityStatus.Name</div>
+                        }
+                        @if (Model.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.None)
+                        {
+                            <div class="badge badge-secondary">@Model.AvailabilityStatus.Name</div>
+                        }
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-4">
                             <h6 class="mb-0">Language</h6>
                         </div>
                         <div class="col-sm-8 text-secondary">@Model.Language</div>

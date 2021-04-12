@@ -12,6 +12,27 @@
         </td>
         <td>@book.Genre</td>
         <td>@book.TotalPages</td>
-        <td class="text-center"><span class="badge badge-success">@book.AvailabilityStatus.Name</span></td>
+        @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Available)
+        {
+            <td class="text-center"><span class="badge badge-success">@book.AvailabilityStatus.Name</span></td>
+        }
+        @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Reserved)
+        {
+            <td class="text-center"><span class="badge badge-warning">@book.AvailabilityStatus.Name</span></td>
+        }
+        @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Loaned)
+        {
+            <td class="text-center"><span class="badge badge-danger">@book.AvailabilityStatus.Name</span></td>
+        }
+        @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.None)
+        {
+            <td class="text-center"><span class="badge badge-secondary">@book.AvailabilityStatus.Name</span></td>
+        }
+        <td class="text-center">
+            <a asp-controller="Book" asp-action="EditBook" asp-route-bookId="@book.Id"><i class="fas fa-edit"></i></a>
+        </td>
+        <td class="text-center">
+            <i class="fas fa-trash-alt" onclick="deleteBook(@book.Id)"></i>
+        </td>
     </tr>
 }
