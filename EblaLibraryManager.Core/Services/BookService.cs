@@ -1,6 +1,7 @@
 ﻿using EblaLibraryManager.Core.Parameters;
 using EblaLibraryManager.Core.Services.Interfaces;
 using EblaLibraryManager.Data;
+using EblaLibraryManager.Data.Enumerations;
 using EblaLibraryManager.Data.Exceptions;
 using EblaLibraryManager.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +21,34 @@ namespace EblaLibraryManager.Core.Services
             _context = context;
         }
 
+        public void UpdateBook(Book book)
+        {
+            if (book is null) throw new BookNotFoundException("The book you are requesting does not exist");
+
+            _context.Books.Update(book);
+            _context.SaveChanges();
+        }
+
+        public async Task CreateBookAsync(Book book)
+        {
+            if (book is null) throw new BookNotFoundException("The book you are requesting does not exist");
+
+            await _context.Books.AddAsync(book);
+            await _context.SaveChangesAsync();
+        }
+
+        public void DeleteBook(Book book)
+        {
+            if (book is null) throw new BookNotFoundException("The book you are requesting does not exist");
+
+            _context.Books.Remove(book);
+            _context.SaveChanges();
+        }
+
         public async Task<Book> GetBookByIdAsync(int bookId)
         {
             var book = await _context.Books
+                .Include(b => b.AvailabilityStatus)
                 .Include(b => b.Author)
                 .Include(b => b.Genre)
                 .FirstOrDefaultAsync(b => b.Id == bookId);
