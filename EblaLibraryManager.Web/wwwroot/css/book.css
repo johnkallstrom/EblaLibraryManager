@@ -1,4 +1,8 @@
-﻿#book a {
+﻿#book-details .badge {
+    margin-left: 15px;
+}
+
+#book .table a {
     color: #212529 !important;
 }
 
@@ -13,4 +17,16 @@
 
 #book-details .column-book-details {
     margin-top: 1rem !important;
+}
+
+#book .table .fa-edit {
+    filter: invert(36%) sepia(45%) saturate(5781%) hue-rotate(199deg) brightness(101%) contrast(111%);
+}
+
+#book .table .fa-trash-alt {
+    filter: invert(33%) sepia(99%) saturate(5386%) hue-rotate(342deg) brightness(96%) contrast(80%);
+}
+
+#book .table .fa-trash-alt:hover {
+    cursor: pointer;
 }
