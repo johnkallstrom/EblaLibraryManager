@@ -62,14 +62,28 @@
             <div class="list-group">
                 @foreach (var book in Model.Books)
                 {
-                    <a asp-controller="Book"
-                       asp-action="BookDetails"
-                       asp-route-bookId="@book.Id"
-                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm">
-                        <span>@book.Title</span>
-                        <span>@book.Genre</span>
-                        <span class="badge badge-success">@book.AvailabilityStatus.Name</span>
-                    </a>
+                <a asp-controller="Book"
+                   asp-action="BookDetails"
+                   asp-route-bookId="@book.Id"
+                   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm">
+                    <span>@book.Title</span>
+                    @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Available)
+                    {
+                        <div class="badge badge-success">@book.AvailabilityStatus.Name</div>
+                    }
+                    @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Reserved)
+                    {
+                        <div class="badge badge-warning">@book.AvailabilityStatus.Name</div>
+                    }
+                    @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Loaned)
+                    {
+                        <div class="badge badge-danger">@book.AvailabilityStatus.Name</div>
+                    }
+                    @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.None)
+                    {
+                        <div class="badge badge-secondary">@book.AvailabilityStatus.Name</div>
+                    }
+                </a>
                 }
             </div>
         </div>
