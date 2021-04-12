@@ -8,6 +8,10 @@ namespace EblaLibraryManager.Web.Profiles
     {
         public BookMapperProfile()
         {
+            CreateMap<Book, EditBookViewModel>();
+            CreateMap<EditBookViewModel, Book>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.BookId));
+
             CreateMap<CreateBookViewModel, Book>();
 
             CreateMap<Book, BookSlimViewModel>()
