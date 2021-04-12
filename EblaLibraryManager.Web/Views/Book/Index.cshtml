@@ -1,59 +1,37 @@
-﻿@{ 
+﻿@{
     ViewBag.Title = "Books";
 }
 
 @model BookListViewModel
 
-<div id="book">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <button class="btn btn-outline-dark btn-search" type="button"><i class="fas fa-search"></i></button>
-                </div>
-                <input type="text" class="form-control" placeholder="Search books by title, author or genre..." id="search-input">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Author</th>
-                            <th scope="col">Genre</th>
-                            <th scope="col">Pages</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var book in Model.Books)
-                        {
-                            <tr>
-                                <th scope="row">@book.Id</th>
-                                <td>
-                                    <a asp-controller="Book" asp-action="BookDetails" asp-route-bookId="@book.Id">@book.Title</a>
-                                </td>
-                                <td>
-                                    <a asp-controller="Author" asp-action="AuthorDetails" asp-route-authorId="@book.Author.Id">@book.Author.Name</a>
-                                </td>
-                                <td>@book.Genre</td>
-                                <td>@book.TotalPages</td>
-                                <td class="text-center"><span class="badge badge-success">@book.AvailabilityStatus.Name</span></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script type="text/javascript">
+    function deleteBook(bookId) {
+        $('.modal-delete').show();
+
+        $('.btn-delete-confirmation').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeleteBook", "Book")',
+                data: { 'bookId': bookId },
+                success: function (data) {
+                    $('.modal-delete').hide();
+                    $('.table tbody').empty();
+                    $('.table > tbody:last-child').append(data);
+                },
+                error: function () {
+                    // log error
+                }
+            })
+        });
+    }
+
     $(document).ready(function () {
+        $('.modal-delete').hide();
+
+        $('.btn-cancel').click(function () {
+            $('.modal-delete').hide();
+        });
+
         var timer;
         $('#search-input').keyup(function () {
             clearTimeout(timer);
@@ -76,3 +54,91 @@
         });
     });
 </script>
+
+<div id="book">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-dark btn-search" type="button"><i class="fas fa-search"></i></button>
+                </div>
+                <input type="text" class="form-control" placeholder="Search books by title, author or genre..." id="search-input">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="float-right">
+                <a asp-controller="Book" asp-action="CreateBook" class="btn btn-primary">New</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Genre</th>
+                            <th scope="col">Pages</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var book in Model.Books)
+                        {
+                            <tr>
+                                <th scope="row">@book.Id</th>
+                                <td>
+                                    <a asp-controller="Book" asp-action="BookDetails" asp-route-bookId="@book.Id">@book.Title</a>
+                                </td>
+                                <td>
+                                    <a asp-controller="Author" asp-action="AuthorDetails" asp-route-authorId="@book.Author.Id">@book.Author.Name</a>
+                                </td>
+                                <td>@book.Genre</td>
+                                <td>@book.TotalPages</td>
+                                @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Available)
+                                {
+                                    <td class="text-center"><span class="badge badge-success">@book.AvailabilityStatus.Name</span></td>
+                                }
+                                @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Reserved)
+                                {
+                                    <td class="text-center"><span class="badge badge-warning">@book.AvailabilityStatus.Name</span></td>
+                                }
+                                @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Loaned)
+                                {
+                                    <td class="text-center"><span class="badge badge-danger">@book.AvailabilityStatus.Name</span></td>
+                                }
+                                @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.None)
+                                {
+                                    <td class="text-center"><span class="badge badge-secondary">@book.AvailabilityStatus.Name</span></td>
+                                }
+                                <td class="text-center">
+                                    <a asp-controller="Book" asp-action="EditBook" asp-route-bookId="@book.Id"><i class="fas fa-edit"></i></a>
+                                </td>
+                                <td class="text-center">
+                                    <i class="fas fa-trash-alt" onclick="deleteBook(@book.Id)"></i>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal modal-backdrop modal-delete">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4>Delete Book</h4>
+                    <p>Are you sure you want to delete this book?</p>
+                    <button type="button" class="btn btn-danger btn-delete-confirmation">Delete</button>
+                    <button type="button" class="btn btn-secondary btn-cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
