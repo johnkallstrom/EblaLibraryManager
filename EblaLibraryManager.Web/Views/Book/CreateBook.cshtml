@@ -6,7 +6,7 @@
 
 <div id="create-book">
     <div class="row gutters">
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 column">
+        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 column">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h4 class="mb-3">Create Book</h4>
@@ -21,7 +21,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label asp-for="@Model.Description" class="text-muted">Description</label>
-                                    <textarea asp-for="@Model.Description" type="text" class="form-control" rows="5" cols="50"></textarea>
+                                    <textarea asp-for="@Model.Description" type="text" class="form-control" rows="10" cols="50"></textarea>
                                     <span asp-validation-for="@Model.Description" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
@@ -60,7 +60,7 @@
                         </div>
                         <div class="row gutters">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <button type="submit" class="btn btn-primary">Create</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                                 <a asp-controller="Book" asp-action="Index" class="btn btn-secondary btn-cancel">Cancel</a>
                             </div>
                         </div>
