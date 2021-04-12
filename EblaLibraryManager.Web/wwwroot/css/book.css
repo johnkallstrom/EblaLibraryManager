@@ -15,10 +15,6 @@
     cursor: pointer;
 }
 
-#book-details .column-book-details {
-    margin-top: 1rem !important;
-}
-
 #book .table .fa-edit {
     filter: invert(36%) sepia(45%) saturate(5781%) hue-rotate(199deg) brightness(101%) contrast(111%);
 }

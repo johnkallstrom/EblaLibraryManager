@@ -2,6 +2,24 @@
     overflow-x: hidden;
  }
 
+
+#wrapper .role-label {
+    margin-top: 0.875rem;
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid #fff;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+}
+
 #wrapper .btn-close-sidebar,
 #wrapper .btn-show-sidebar {
     background-color: #495057;

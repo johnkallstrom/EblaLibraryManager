@@ -1,5 +1,17 @@
 ﻿@inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
+@inject IIdentityService IdentityService
+
+@{ 
+    ApplicationUser user = null;
+    string role = string.Empty;
+
+    if (SignInManager.IsSignedIn(User))
+    {
+        user = await UserManager.GetUserAsync(User);
+        role = await IdentityService.GetUserRoleAsync(user);
+    }
+}
 
 <!DOCTYPE html>
 <html>
@@ -24,12 +36,22 @@
         <div class="bg-dark border-right" id="sidebar-wrapper">
             <div class="sidebar-heading">
                 <a asp-controller="Home" asp-action="Index">Ebla Library Manager</a>
+                <div class="d-block">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <span class="role-label">@role</span>
+                    } 
+                </div>
             </div>
             <div class="list-group list-group-flush">
                 <a asp-controller="Home" asp-action="Index" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-home pr-3"></i>Home</a>
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <a asp-controller="Book" asp-action="Index" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-book pr-3"></i>Books</a>
+                    @if (User.IsInRole(IdentityRoleTypes.Librarian))
+                    {
+                        <a asp-controller="Manage" asp-action="Index" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-users-cog pr-3"></i>Members</a>
+                    }
                     <a asp-controller="Account" asp-action="Profile" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-user pr-3"></i>Profile</a>
                     <a asp-controller="Account" asp-action="Settings" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-cog pr-3"></i>Settings</a>
                     <a asp-controller="Account" asp-action="Logout" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-sign-out-alt pr-3"></i>Sign out</a>
@@ -53,6 +75,10 @@
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <a asp-controller="Book" asp-action="Index" class="nav-item nav-link"><i class="fas fa-book pr-2"></i>Books</a>
+                            @if (User.IsInRole(IdentityRoleTypes.Librarian))
+                            {
+                                <a asp-controller="Manage" asp-action="Index" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-users-cog pr-3"></i>Members</a>
+                            }
                             <a asp-controller="Account" asp-action="Profile" class="nav-item nav-link"><i class="fas fa-user pr-2"></i>Profile</a>
                             <a asp-controller="Account" asp-action="Settings" class="nav-item nav-link"><i class="fas fa-cog pr-2"></i>Settings</a>
                             <a asp-controller="Account" asp-action="Logout" class="nav-item nav-link"><i class="fas fa-sign-out-alt pr-2"></i>Sign out</a>

@@ -1,4 +1,6 @@
-﻿@{
+﻿@inject SignInManager<ApplicationUser> SignInManager
+
+@{
     ViewBag.Title = "Books";
 }
 
@@ -65,11 +67,17 @@
                 <input type="text" class="form-control" placeholder="Search books by title, author or genre..." id="search-input">
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="float-right">
-                <a asp-controller="Book" asp-action="CreateBook" class="btn btn-primary">New</a>
-            </div>
-        </div>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @if (User.IsInRole(IdentityRoleTypes.Librarian))
+            {
+                <div class="col-md-4">
+                    <div class="float-right">
+                        <a asp-controller="Book" asp-action="CreateBook" class="btn btn-primary">Create</a>
+                    </div>
+                </div>
+            }
+        }
     </div>
     <div class="row">
         <div class="col-md-8">
@@ -83,46 +91,58 @@
                             <th scope="col">Genre</th>
                             <th scope="col">Pages</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Edit</th>
-                            <th scope="col">Delete</th>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                @if (User.IsInRole(IdentityRoleTypes.Librarian))
+                                {
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                }
+                            }
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var book in Model.Books)
                         {
-                            <tr>
-                                <th scope="row">@book.Id</th>
-                                <td>
-                                    <a asp-controller="Book" asp-action="BookDetails" asp-route-bookId="@book.Id">@book.Title</a>
-                                </td>
-                                <td>
-                                    <a asp-controller="Author" asp-action="AuthorDetails" asp-route-authorId="@book.Author.Id">@book.Author.Name</a>
-                                </td>
-                                <td>@book.Genre</td>
-                                <td>@book.TotalPages</td>
-                                @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Available)
+                        <tr>
+                            <th scope="row">@book.Id</th>
+                            <td>
+                                <a asp-controller="Book" asp-action="BookDetails" asp-route-bookId="@book.Id">@book.Title</a>
+                            </td>
+                            <td>
+                                <a asp-controller="Author" asp-action="AuthorDetails" asp-route-authorId="@book.Author.Id">@book.Author.Name</a>
+                            </td>
+                            <td>@book.Genre</td>
+                            <td>@book.TotalPages</td>
+                            @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Available)
+                            {
+                                <td class="text-center"><span class="badge badge-success">@book.AvailabilityStatus.Name</span></td>
+                            }
+                            @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Reserved)
+                            {
+                                <td class="text-center"><span class="badge badge-warning">@book.AvailabilityStatus.Name</span></td>
+                            }
+                            @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Loaned)
+                            {
+                                <td class="text-center"><span class="badge badge-danger">@book.AvailabilityStatus.Name</span></td>
+                            }
+                            @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.None)
+                            {
+                                <td class="text-center"><span class="badge badge-secondary">@book.AvailabilityStatus.Name</span></td>
+                            }
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                @if (User.IsInRole(IdentityRoleTypes.Librarian))
                                 {
-                                    <td class="text-center"><span class="badge badge-success">@book.AvailabilityStatus.Name</span></td>
+                                    <td class="text-center">
+                                        <a asp-controller="Book" asp-action="EditBook" asp-route-bookId="@book.Id"><i class="fas fa-edit"></i></a>
+                                    </td>
+                                    <td class="text-center">
+                                        <i class="fas fa-trash-alt" onclick="deleteBook(@book.Id)"></i>
+                                    </td>
                                 }
-                                @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Reserved)
-                                {
-                                    <td class="text-center"><span class="badge badge-warning">@book.AvailabilityStatus.Name</span></td>
-                                }
-                                @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Loaned)
-                                {
-                                    <td class="text-center"><span class="badge badge-danger">@book.AvailabilityStatus.Name</span></td>
-                                }
-                                @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.None)
-                                {
-                                    <td class="text-center"><span class="badge badge-secondary">@book.AvailabilityStatus.Name</span></td>
-                                }
-                                <td class="text-center">
-                                    <a asp-controller="Book" asp-action="EditBook" asp-route-bookId="@book.Id"><i class="fas fa-edit"></i></a>
-                                </td>
-                                <td class="text-center">
-                                    <i class="fas fa-trash-alt" onclick="deleteBook(@book.Id)"></i>
-                                </td>
-                            </tr>
+                            }
+                        </tr>
                         }
                     </tbody>
                 </table>
