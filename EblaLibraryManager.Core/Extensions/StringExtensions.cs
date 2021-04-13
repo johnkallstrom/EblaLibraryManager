@@ -16,5 +16,17 @@
 
             return true;
         }
+
+        public static string Truncate(this string value, int maxLength)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return value;
+            return value.Length <= maxLength ? value : value.Substring(0, maxLength);
+        }
+
+        public static string EnsureEndsWithDots(this string value)
+        {
+            if (!value.EndsWith("...")) return $"{value}...";
+            return value;
+        }
     }
 }
