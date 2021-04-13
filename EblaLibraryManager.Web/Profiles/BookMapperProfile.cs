@@ -9,15 +9,12 @@ namespace EblaLibraryManager.Web.Profiles
         public BookMapperProfile()
         {
             CreateMap<Book, EditBookViewModel>();
-            CreateMap<EditBookViewModel, Book>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.BookId));
-
+            CreateMap<EditBookViewModel, Book>();
             CreateMap<CreateBookViewModel, Book>();
+            CreateMap<Book, BookViewModel>();
 
             CreateMap<Book, BookSlimViewModel>()
                 .ForMember(dest => dest.Genre, opt => opt.MapFrom(src => src.Genre.Name));
-
-            CreateMap<Book, BookViewModel>();
         }
     }
 }
