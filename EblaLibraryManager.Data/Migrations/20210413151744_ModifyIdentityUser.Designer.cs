@@ -4,14 +4,16 @@ using EblaLibraryManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EblaLibraryManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210413151744_ModifyIdentityUser")]
+    partial class ModifyIdentityUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,14 +219,12 @@ namespace EblaLibraryManager.Data.Migrations
                     b.Property<DateTime?>("Returned")
                         .HasColumnType("date");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Lending");
                 });
@@ -247,14 +247,12 @@ namespace EblaLibraryManager.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Reservation");
                 });
@@ -417,13 +415,7 @@ namespace EblaLibraryManager.Data.Migrations
                         .HasConstraintName("FK_Lending_Book")
                         .IsRequired();
 
-                    b.HasOne("EblaLibraryManager.Data.Identity.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Book");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EblaLibraryManager.Data.Models.Reservation", b =>
@@ -434,13 +426,7 @@ namespace EblaLibraryManager.Data.Migrations
                         .HasConstraintName("FK_Reservation_Book")
                         .IsRequired();
 
-                    b.HasOne("EblaLibraryManager.Data.Identity.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Book");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
