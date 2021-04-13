@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EblaLibraryManager.Core.Parameters;
 using EblaLibraryManager.Core.Services.Interfaces;
+using EblaLibraryManager.Data.Enumerations;
 using EblaLibraryManager.Data.Models;
 using EblaLibraryManager.Web.ViewModels.Book;
 using Microsoft.AspNetCore.Authorization;
@@ -16,17 +17,20 @@ namespace EblaLibraryManager.Web.Controllers
     public class BookController : Controller
     {
         private readonly IMapper _mapper;
+        private readonly IIdentityService _identityService;
         private readonly IAuthorService _authorService;
         private readonly IGenreService _genreService;
         private readonly IBookService _bookService;
 
         public BookController(
             IMapper mapper,
+            IIdentityService identityService,
             IAuthorService authorService,
             IGenreService genreService,
             IBookService bookService)
         {
             _mapper = mapper;
+            _identityService = identityService;
             _authorService = authorService;
             _genreService = genreService;
             _bookService = bookService;
@@ -59,8 +63,10 @@ namespace EblaLibraryManager.Web.Controllers
         {
             var model = new CreateBookViewModel();
 
-            model.GenreOptions = await GetGenreSelectOptions();
-            model.AuthorOptions = await GetAuthorSelectOptions();
+            model.GenreOptions = await GetGenreOptions();
+            model.AuthorOptions = await GetAuthorOptions();
+            model.LanguageOptions = GetLanguageOptions();
+            model.StatusOptions = GetStatusOptions();
 
             return View(model);
         }
@@ -105,8 +111,10 @@ namespace EblaLibraryManager.Web.Controllers
             var book = await _bookService.GetBookByIdAsync(bookId);
 
             var model = _mapper.Map<EditBookViewModel>(book);
-            model.GenreOptions = await GetGenreSelectOptions();
-            model.AuthorOptions = await GetAuthorSelectOptions();
+            model.GenreOptions = await GetGenreOptions();
+            model.AuthorOptions = await GetAuthorOptions();
+            model.LanguageOptions = GetLanguageOptions();
+            model.StatusOptions = GetStatusOptions();
 
             return View(model);
         }
@@ -119,7 +127,7 @@ namespace EblaLibraryManager.Web.Controllers
 
             try
             {
-                var book = await _bookService.GetBookByIdAsync(model.BookId);
+                var book = await _bookService.GetBookByIdAsync(model.Id);
 
                 _mapper.Map(model, book);
                 
@@ -149,7 +157,34 @@ namespace EblaLibraryManager.Web.Controllers
         }
 
         #region Private Methods
-        private async Task<List<SelectListItem>> GetAuthorSelectOptions()
+        private List<SelectListItem> GetStatusOptions()
+        {
+            return new List<SelectListItem>
+            {
+                new SelectListItem(BookStatusTypes.Available, BookStatusTypes.Available),
+                new SelectListItem(BookStatusTypes.Reserved, BookStatusTypes.Reserved),
+                new SelectListItem(BookStatusTypes.Loaned, BookStatusTypes.Loaned),
+                new SelectListItem(BookStatusTypes.None, BookStatusTypes.None),
+            };
+        }
+
+        private List<SelectListItem> GetLanguageOptions()
+        {
+            return new List<SelectListItem>
+            {
+                new SelectListItem(BookLanguageTypes.Arabic, BookLanguageTypes.Arabic),
+                new SelectListItem(BookLanguageTypes.Chinese, BookLanguageTypes.Chinese),
+                new SelectListItem(BookLanguageTypes.English, BookLanguageTypes.English),
+                new SelectListItem(BookLanguageTypes.French, BookLanguageTypes.French),
+                new SelectListItem(BookLanguageTypes.German, BookLanguageTypes.German),
+                new SelectListItem(BookLanguageTypes.Italian, BookLanguageTypes.Italian),
+                new SelectListItem(BookLanguageTypes.Russian, BookLanguageTypes.Russian),
+                new SelectListItem(BookLanguageTypes.Swedish, BookLanguageTypes.Swedish),
+                new SelectListItem(BookLanguageTypes.Spanish, BookLanguageTypes.Spanish),
+            };
+        }
+
+        private async Task<List<SelectListItem>> GetAuthorOptions()
         {
             var authors = await _authorService.GetAuthorsAsync();
             var authorOptions = new List<SelectListItem>();
@@ -159,7 +194,7 @@ namespace EblaLibraryManager.Web.Controllers
             return authorOptions;
         }
 
-        private async Task<List<SelectListItem>> GetGenreSelectOptions()
+        private async Task<List<SelectListItem>> GetGenreOptions()
         {
             var genres = await _genreService.GetGenresAsync();
             var genreOptions = new List<SelectListItem>();
