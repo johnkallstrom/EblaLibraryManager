@@ -1,8 +1,8 @@
 ﻿using EblaLibraryManager.Core.Parameters;
 using EblaLibraryManager.Core.Services.Interfaces;
 using EblaLibraryManager.Data;
-using EblaLibraryManager.Data.Enumerations;
 using EblaLibraryManager.Data.Exceptions;
+using EblaLibraryManager.Data.Identity;
 using EblaLibraryManager.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -48,7 +48,6 @@ namespace EblaLibraryManager.Core.Services
         public async Task<Book> GetBookByIdAsync(int bookId)
         {
             var book = await _context.Books
-                .Include(b => b.AvailabilityStatus)
                 .Include(b => b.Author)
                 .Include(b => b.Genre)
                 .FirstOrDefaultAsync(b => b.Id == bookId);
@@ -61,7 +60,6 @@ namespace EblaLibraryManager.Core.Services
         public async Task<IEnumerable<Book>> GetBooksAsync()
         {
             var books = await _context.Books
-                .Include(b => b.AvailabilityStatus)
                 .Include(b => b.Author)
                 .Include(b => b.Genre)
                 .ToListAsync();
@@ -79,7 +77,7 @@ namespace EblaLibraryManager.Core.Services
             }
 
             var collection = _context.Books
-                .Include(b => b.AvailabilityStatus)
+                .Include(b => b.Status)
                 .Include(b => b.Author)
                 .Include(b => b.Genre) as IQueryable<Book>;
 

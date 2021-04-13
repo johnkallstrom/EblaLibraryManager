@@ -22,7 +22,6 @@ namespace EblaLibraryManager.Core.Services
         {
             var author = await _context.Authors
                 .Include(a => a.Books).ThenInclude(b => b.Genre)
-                .Include(a => a.Books).ThenInclude(b => b.AvailabilityStatus)
                 .FirstOrDefaultAsync(a => a.Id == authorId);
 
             if (author is null) throw new AuthorNotFoundException("The author you are requesting does not exist.");
