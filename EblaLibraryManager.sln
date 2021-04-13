@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EblaLibraryManager.Data", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EblaLibraryManager.Core", "EblaLibraryManager.Core\EblaLibraryManager.Core.csproj", "{23C819CE-6998-4E27-B312-9461FFF1A078}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EblaLibraryManager.Tests", "EblaLibraryManager.Tests\EblaLibraryManager.Tests.csproj", "{93F8FCD1-255E-4F11-A900-81E94CE15651}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EblaLibraryManager.Tests", "EblaLibraryManager.Tests\EblaLibraryManager.Tests.csproj", "{93F8FCD1-255E-4F11-A900-81E94CE15651}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
