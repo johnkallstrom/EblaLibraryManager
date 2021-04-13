@@ -12,6 +12,10 @@ namespace EblaLibraryManager.Web.Validators
 
             RuleFor(model => model.Publisher)
                 .MaximumLength(50).WithMessage("The publisher cannot be longer than 50 characters.");
+
+            RuleFor(model => model.Status)
+                .NotNull().WithMessage("Please choose a status.")
+                .NotEmpty().WithMessage("Please choose a status.");
         }
     }
 }

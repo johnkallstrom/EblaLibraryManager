@@ -16,6 +16,10 @@ namespace EblaLibraryManager.Web.Validators
                 .NotNull().WithMessage("Please choose language.")
                 .NotEmpty().WithMessage("Please choose language.");
 
+            RuleFor(model => model.Status)
+                .NotNull().WithMessage("Please choose a status.")
+                .NotEmpty().WithMessage("Please choose a status.");
+
             RuleFor(model => model.GenreId)
                 .NotEmpty().WithMessage("Please choose genre.");
 
