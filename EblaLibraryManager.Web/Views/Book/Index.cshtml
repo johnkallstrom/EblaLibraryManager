@@ -114,21 +114,21 @@
                             </td>
                             <td>@book.Genre</td>
                             <td>@book.TotalPages</td>
-                            @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Available)
+                            @if (book.Status == BookStatusTypes.Available)
                             {
-                                <td class="text-center"><span class="badge badge-success">@book.AvailabilityStatus.Name</span></td>
+                                <td class="text-center"><span class="badge badge-success">@book.Status</span></td>
                             }
-                            @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Reserved)
+                            @if (book.Status == BookStatusTypes.Reserved)
                             {
-                                <td class="text-center"><span class="badge badge-warning">@book.AvailabilityStatus.Name</span></td>
+                                <td class="text-center"><span class="badge badge-warning">@book.Status</span></td>
                             }
-                            @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Loaned)
+                            @if (book.Status == BookStatusTypes.Loaned)
                             {
-                                <td class="text-center"><span class="badge badge-danger">@book.AvailabilityStatus.Name</span></td>
+                                <td class="text-center"><span class="badge badge-danger">@book.Status</span></td>
                             }
-                            @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.None)
+                            @if (book.Status == BookStatusTypes.None)
                             {
-                                <td class="text-center"><span class="badge badge-secondary">@book.AvailabilityStatus.Name</span></td>
+                                <td class="text-center"><span class="badge badge-secondary">@book.Status</span></td>
                             }
                             @if (SignInManager.IsSignedIn(User))
                             {

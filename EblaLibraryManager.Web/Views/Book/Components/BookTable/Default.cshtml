@@ -12,21 +12,21 @@
         </td>
         <td>@book.Genre</td>
         <td>@book.TotalPages</td>
-        @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Available)
+        @if (book.Status is BookStatusTypes.Available)
         {
-            <td class="text-center"><span class="badge badge-success">@book.AvailabilityStatus.Name</span></td>
+            <td class="text-center"><span class="badge badge-success">@book.Status</span></td>
         }
-        @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Reserved)
+        @if (book.Status is BookStatusTypes.Reserved)
         {
-            <td class="text-center"><span class="badge badge-warning">@book.AvailabilityStatus.Name</span></td>
+            <td class="text-center"><span class="badge badge-warning">@book.Status</span></td>
         }
-        @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.Loaned)
+        @if (book.Status is BookStatusTypes.Loaned)
         {
-            <td class="text-center"><span class="badge badge-danger">@book.AvailabilityStatus.Name</span></td>
+            <td class="text-center"><span class="badge badge-danger">@book.Status</span></td>
         }
-        @if (book.AvailabilityStatus.Id == (int)AvailabilityStatusTypes.None)
+        @if (book.Status is BookStatusTypes.None)
         {
-            <td class="text-center"><span class="badge badge-secondary">@book.AvailabilityStatus.Name</span></td>
+            <td class="text-center"><span class="badge badge-secondary">@book.Status</span></td>
         }
         <td class="text-center">
             <a asp-controller="Book" asp-action="EditBook" asp-route-bookId="@book.Id"><i class="fas fa-edit"></i></a>

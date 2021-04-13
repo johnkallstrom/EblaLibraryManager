@@ -12,11 +12,11 @@
                     <h4 class="mb-3">Edit Book</h4>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <form asp-controller="Book" asp-action="EditBook" method="post">
-                        <input type="hidden" asp-for="@Model.BookId" />
+                        <input type="hidden" asp-for="@Model.Id" />
                         <div class="row gutters">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group required">
-                                    <label asp-for="@Model.Title" class="text-muted">Title</label>
+                                    <label asp-for="@Model.Title" class="text-muted control-label">Title</label>
                                     <input asp-for="@Model.Title" type="text" class="form-control">
                                     <span asp-validation-for="@Model.Title" class="text-danger"></span>
                                 </div>
@@ -31,31 +31,31 @@
                                     <span asp-validation-for="@Model.Publisher" class="text-danger"></span>
                                 </div>
                                 <div class="form-group required">
-                                    <label asp-for="@Model.TotalPages" class="text-muted">Pages</label>
+                                    <label asp-for="@Model.TotalPages" class="text-muted control-label">Pages</label>
                                     <input asp-for="@Model.TotalPages" type="number" class="form-control">
                                     <span asp-validation-for="@Model.TotalPages" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group required">
-                                    <label asp-for="@Model.Language" class="text-muted">Language</label>
+                                    <label asp-for="@Model.Language" class="text-muted control-label">Language</label>
                                     <select asp-for="@Model.Language" asp-items="@Model.LanguageOptions" class="form-control"></select>
                                     <span asp-validation-for="@Model.Language" class="text-danger"></span>
                                 </div>
                                 <div class="form-group required">
-                                    <label asp-for="@Model.GenreId" class="text-muted">Genre</label>
+                                    <label asp-for="@Model.GenreId" class="text-muted control-label">Genre</label>
                                     <select asp-for="@Model.GenreId" asp-items="@Model.GenreOptions" class="form-control"></select>
                                     <span asp-validation-for="@Model.GenreId" class="text-danger"></span>
                                 </div>
                                 <div class="form-group required">
-                                    <label asp-for="@Model.AuthorId" class="text-muted">Author</label>
+                                    <label asp-for="@Model.AuthorId" class="text-muted control-label">Author</label>
                                     <select asp-for="@Model.AuthorId" asp-items="@Model.AuthorOptions" class="form-control"></select>
                                     <span asp-validation-for="@Model.AuthorId" class="text-danger"></span>
                                 </div>
                                 <div class="form-group required">
-                                    <label asp-for="@Model.AvailabilityStatusId" class="text-muted">Status</label>
-                                    <select asp-for="@Model.AvailabilityStatusId" asp-items="@Model.AvailabilityStatusOptions" class="form-control"></select>
-                                    <span asp-validation-for="@Model.AvailabilityStatusId" class="text-danger"></span>
+                                    <label asp-for="@Model.Status" class="text-muted control-label">Status</label>
+                                    <select asp-for="@Model.Status" asp-items="@Model.StatusOptions" class="form-control"></select>
+                                    <span asp-validation-for="@Model.Status" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
